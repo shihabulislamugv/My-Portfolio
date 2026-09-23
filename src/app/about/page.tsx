@@ -13,10 +13,18 @@ export default function AboutPage() {
   const [academics, setAcademics] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('/api/profile').then(res => res.json()).then(data => setProfile(data)).catch(console.error);
-    fetch('/api/experience').then(res => res.json()).then(data => setExperiences(data)).catch(console.error);
-    fetch('/api/skills').then(res => res.json()).then(data => setSkills(data)).catch(console.error);
-    fetch('/api/academic').then(res => res.json()).then(data => setAcademics(data)).catch(console.error);
+    fetch('/api/profile').then(res => res.json()).then(data => {
+      if (data && typeof data === 'object' && !('error' in data)) setProfile(data);
+    }).catch(console.error);
+    fetch('/api/experience').then(res => res.json()).then(data => {
+      if (Array.isArray(data)) setExperiences(data);
+    }).catch(console.error);
+    fetch('/api/skills').then(res => res.json()).then(data => {
+      if (Array.isArray(data)) setSkills(data);
+    }).catch(console.error);
+    fetch('/api/academic').then(res => res.json()).then(data => {
+      if (Array.isArray(data)) setAcademics(data);
+    }).catch(console.error);
   }, []);
 
   return (
@@ -144,7 +152,7 @@ export default function AboutPage() {
 
         {/* Skills Badges */}
         <div className="flex flex-wrap gap-3.5 mb-14">
-          {skills.length === 0 ? (
+          {!Array.isArray(skills) || skills.length === 0 ? (
             <p className="text-zinc-500 font-bold uppercase tracking-wider text-sm p-8 bg-zinc-100 border-2 border-dashed border-zinc-300 w-full">
               No skills added yet. Add some in the Admin Panel!
             </p>
@@ -280,7 +288,7 @@ export default function AboutPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {experiences.length === 0 ? (
+          {!Array.isArray(experiences) || experiences.length === 0 ? (
             <div className="col-span-full p-8 bg-zinc-100 border-2 border-dashed border-zinc-300 text-zinc-500 font-bold uppercase tracking-wider text-sm">
               No experience entries added yet. Add some in the Admin Panel!
             </div>
@@ -338,7 +346,7 @@ export default function AboutPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {academics.length === 0 ? (
+          {!Array.isArray(academics) || academics.length === 0 ? (
             <div className="col-span-full p-8 bg-zinc-100 border-2 border-dashed border-zinc-300 text-zinc-500 font-bold uppercase tracking-wider text-sm">
               No academic qualifications added yet. Add some in the Admin Panel!
             </div>

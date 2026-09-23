@@ -19,8 +19,8 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(projects);
   } catch (error) {
-    console.error(error);
-    return new Response("Internal Server Error", { status: 500 });
+    console.error("Projects GET error:", error);
+    return NextResponse.json([]);
   }
 }
 

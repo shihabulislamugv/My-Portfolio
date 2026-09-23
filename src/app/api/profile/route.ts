@@ -5,12 +5,23 @@ import { authOptions } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
+const defaultProfile = {
+  name: "SHIHAB.",
+  headlineLine1: "Digital",
+  headlineLine2: "experiences",
+  shortBio: "Crafting intuitive & engaging interfaces for modern digital products.",
+  email: "hello@example.com",
+  aboutText: "A passionate UX/UI Designer with 2 years of experience developing live projects and robust case studies at a fast-paced agency.",
+  resumeUrl: "",
+};
+
 export async function GET() {
   try {
     const profile = await prisma.profile.findFirst();
-    return NextResponse.json(profile || {});
+    return NextResponse.json(profile || defaultProfile);
   } catch (error: any) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error("Profile GET error:", error);
+    return NextResponse.json(defaultProfile);
   }
 }
 

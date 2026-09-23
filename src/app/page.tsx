@@ -39,22 +39,38 @@ export default function Home() {
   useEffect(() => {
     fetch('/api/projects?published=true')
       .then(res => res.json())
-      .then(data => setProjects(data.slice(0, 4)))
+      .then(data => {
+        if (Array.isArray(data)) {
+          setProjects(data.slice(0, 4));
+        }
+      })
       .catch(console.error);
       
     fetch('/api/profile')
       .then(res => res.json())
-      .then(data => setProfile(data))
+      .then(data => {
+        if (data && typeof data === 'object' && !('error' in data)) {
+          setProfile(data);
+        }
+      })
       .catch(console.error);
       
     fetch('/api/skills')
       .then(res => res.json())
-      .then(data => setSkills(data))
+      .then(data => {
+        if (Array.isArray(data)) {
+          setSkills(data);
+        }
+      })
       .catch(console.error);
 
     fetch('/api/experience')
       .then(res => res.json())
-      .then(data => setExperiences(data))
+      .then(data => {
+        if (Array.isArray(data)) {
+          setExperiences(data);
+        }
+      })
       .catch(console.error);
   }, []);
 
@@ -65,7 +81,7 @@ export default function Home() {
     setTimeout(() => setCopied(false), 2500);
   };
 
-  const marqueeSkills = skills.length > 0 ? skills.map(s => s.name) : [
+  const marqueeSkills = Array.isArray(skills) && skills.length > 0 ? skills.map(s => s.name) : [
     'UX Architecture', 'Interactive Design', 'Rapid Prototyping', 'Design Systems', 'Mobile Products', 'Figma To Code'
   ];
 
@@ -156,7 +172,7 @@ export default function Home() {
           </div>
 
           <div className="space-y-36 md:space-y-52">
-            {projects.map((project, index) => (
+            {Array.isArray(projects) && projects.map((project, index) => (
               <div 
                 key={project.id} 
                 className={`flex flex-col ${index % 2 !== 0 ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-12 md:gap-24 group`}
@@ -295,7 +311,7 @@ export default function Home() {
           </div>
 
           <div className="space-y-8">
-            {experiences.length === 0 ? (
+            {!Array.isArray(experiences) || experiences.length === 0 ? (
               <div className="p-8 bg-white border-4 border-zinc-900 shadow-[8px_8px_0px_0px_rgba(24,24,27,1)] text-zinc-500 font-bold uppercase tracking-wider text-sm">
                 No experience entries added yet.
               </div>

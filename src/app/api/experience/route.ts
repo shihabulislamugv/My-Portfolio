@@ -12,7 +12,8 @@ export async function GET() {
     });
     return NextResponse.json(experiences);
   } catch (error: any) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error("Experience GET error:", error);
+    return NextResponse.json([]);
   }
 }
 
