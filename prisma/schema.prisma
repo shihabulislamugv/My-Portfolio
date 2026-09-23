@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  thumbnail   String?
+  role        String?
+  timeline    String?
+  problem     String?
+  solution    String?
+  externalLink String?
+  caseStudy   String?  // Markdown or HTML content
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Profile {
+  id           String   @id @default("1")
+  name         String   @default("SHIHAB.")
+  headlineLine1 String  @default("Digital")
+  headlineLine2 String  @default("experiences")
+  shortBio     String   @default("Crafting intuitive & engaging interfaces for modern digital products.")
+  email        String   @default("hello@example.com")
+  aboutText    String   @default("A passionate UX/UI Designer with 2 years of experience developing live projects and robust case studies at a fast-paced agency.")
+  resumeUrl    String?
+  updatedAt    DateTime @updatedAt
+}
+
+model Experience {
+  id          String   @id @default(cuid())
+  role        String
+  company     String
+  period      String
+  description String
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Skill {
+  id        String   @id @default(cuid())
+  name      String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Academic {
+  id          String   @id @default(cuid())
+  degree      String
+  institution String
+  period      String
+  description String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
