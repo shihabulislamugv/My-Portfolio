@@ -811,10 +811,10 @@ export default function Home() {
         {/* Social / Direct Connect Links */}
         <div className="flex flex-wrap justify-center items-center gap-8 text-sm font-black uppercase tracking-widest border-t-2 border-zinc-900/20 pt-12 max-w-3xl mx-auto">
           {[
-            { label: "LinkedIn", href: "https://linkedin.com" },
-            { label: "GitHub", href: "https://github.com" },
-            { label: "Dribbble", href: "https://dribbble.com" },
-            { label: "Twitter / X", href: "https://twitter.com" },
+            { label: "LinkedIn", href: "https://www.linkedin.com/in/md-shihabul-islam404/" },
+            { label: "GitHub", href: "https://github.com/shihabulislamugv" },
+            { label: "Dribbble", href: "https://dribbble.com/Shihabul_Islam002" },
+            { label: "Behance", href: "https://www.behance.net/mdshihabulislam" },
           ].map((social) => (
             <a 
               key={social.label}

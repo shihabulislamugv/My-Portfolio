@@ -410,6 +410,27 @@ export default function AboutPage() {
           <Mail size={24} />
           <span>Say Hello</span>
         </motion.a>
+
+        {/* Social / Direct Connect Links */}
+        <div className="flex flex-wrap justify-center items-center gap-8 text-sm font-black uppercase tracking-widest border-t-2 border-white/20 pt-10 mt-12 w-full max-w-xl">
+          {[
+            { label: "LinkedIn", href: "https://www.linkedin.com/in/md-shihabul-islam404/" },
+            { label: "GitHub", href: "https://github.com/shihabulislamugv" },
+            { label: "Dribbble", href: "https://dribbble.com/Shihabul_Islam002" },
+            { label: "Behance", href: "https://www.behance.net/mdshihabulislam" },
+          ].map((social) => (
+            <a 
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-blue-400 transition-colors inline-flex items-center gap-1 group"
+            >
+              <span>{social.label}</span>
+              <span className="group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform">↗</span>
+            </a>
+          ))}
+        </div>
       </motion.div>
     </main>
   );
