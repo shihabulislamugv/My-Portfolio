@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { isAuthenticated } from "@/lib/check-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -10,8 +9,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
+    const authed = await isAuthenticated(req);
+    if (!authed) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -33,8 +32,8 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
+    const authed = await isAuthenticated(req);
+    if (!authed) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

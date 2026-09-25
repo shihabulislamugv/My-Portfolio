@@ -53,6 +53,12 @@ export default function ExperienceManager({ initialExperiences }: { initialExper
         if (res.ok) {
           const updated = await res.json();
           setExperiences(experiences.map(e => e.id === editingId ? updated.experience : e));
+          resetForm();
+          router.refresh();
+        } else {
+          const data = await res.json().catch(() => ({}));
+          alert(`Failed to update experience: ${data.error || res.statusText || res.status}`);
+          return;
         }
       } else {
         const res = await fetch(`/api/experience`, {
@@ -63,12 +69,16 @@ export default function ExperienceManager({ initialExperiences }: { initialExper
         if (res.ok) {
           const created = await res.json();
           setExperiences([...experiences, created.experience]);
+          resetForm();
+          router.refresh();
+        } else {
+          const data = await res.json().catch(() => ({}));
+          alert(`Failed to create experience: ${data.error || res.statusText || res.status}`);
+          return;
         }
       }
-      resetForm();
-      router.refresh();
-    } catch (error) {
-      alert("Failed to save");
+    } catch (error: any) {
+      alert(`Failed to save: ${error?.message || error}`);
     }
   };
 

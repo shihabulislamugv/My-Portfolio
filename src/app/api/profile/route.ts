@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { isAuthenticated } from "@/lib/check-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -27,9 +26,9 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const authed = await isAuthenticated(req);
+    if (!authed) {
+      return NextResponse.json({ error: "Unauthorized. Please re-login to your session." }, { status: 401 });
     }
 
     const body = await req.json();
@@ -37,13 +36,13 @@ export async function POST(req: Request) {
     const profile = await prisma.profile.upsert({
       where: { id: "1" },
       update: {
-        name: body.name,
-        headlineLine1: body.headlineLine1,
-        headlineLine2: body.headlineLine2,
-        shortBio: body.shortBio,
-        email: body.email,
-        aboutText: body.aboutText,
-        resumeUrl: body.resumeUrl,
+        name: body.name || "SHIHAB.",
+        headlineLine1: body.headlineLine1 || "Digital",
+        headlineLine2: body.headlineLine2 || "experiences",
+        shortBio: body.shortBio ?? "",
+        email: body.email || "hello@example.com",
+        aboutText: body.aboutText ?? "",
+        resumeUrl: body.resumeUrl ?? null,
       },
       create: {
         id: "1",

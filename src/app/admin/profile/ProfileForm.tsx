@@ -36,11 +36,13 @@ export default function ProfileForm({ initialData }: { initialData: any }) {
         router.refresh();
         alert("Profile updated successfully!");
       } else {
-        alert("Failed to update profile");
+        const data = await res.json().catch(() => ({}));
+        const message = data.error || `HTTP ${res.status}: ${res.statusText || "Server Error"}`;
+        alert(`Failed to update profile: ${message}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert("Error saving profile");
+      alert(`Error saving profile: ${error?.message || error}`);
     } finally {
       setLoading(false);
     }

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -20,7 +20,8 @@ export function DeleteProjectButton({ id }: { id: string }) {
       if (res.ok) {
         router.refresh();
       } else {
-        alert("Failed to delete project");
+        const data = await res.json().catch(() => ({}));
+        alert(`Failed to delete project: ${data.error || res.statusText || res.status}`);
       }
     } catch (error) {
       console.error(error);
