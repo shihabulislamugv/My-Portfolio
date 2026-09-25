@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowDownToLine, Menu, X } from "lucide-react";
+import { ArrowDownToLine, Menu, X, Lock } from "lucide-react";
 
 export function Nav() {
   const pathname = usePathname();
@@ -101,6 +101,22 @@ export function Nav() {
               </a>
             </motion.div>
           )}
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.45 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link
+              href="/admin"
+              title="Admin Dashboard Portal"
+              className="p-2.5 bg-white text-zinc-700 hover:text-zinc-900 border-2 border-zinc-900 shadow-[3px_3px_0px_0px_rgba(24,24,27,1)] hover:bg-blue-50 transition-colors inline-flex items-center justify-center"
+            >
+              <Lock size={15} strokeWidth={2.5} />
+            </Link>
+          </motion.div>
         </nav>
 
         {/* Mobile Hamburger Toggle */}
@@ -115,6 +131,13 @@ export function Nav() {
               Resume
             </a>
           )}
+          <Link
+            href="/admin"
+            title="Admin Dashboard"
+            className="p-1.5 border-2 border-zinc-900 bg-white text-zinc-900 shadow-[2px_2px_0px_0px_rgba(24,24,27,1)]"
+          >
+            <Lock size={18} />
+          </Link>
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Menu"
@@ -153,6 +176,17 @@ export function Nav() {
                   <span>→</span>
                 </Link>
               ))}
+
+              <Link
+                href="/admin"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-xl font-black uppercase tracking-tight py-3 text-blue-600 flex items-center justify-between"
+              >
+                <span className="inline-flex items-center gap-2">
+                  <Lock size={18} /> Admin Dashboard
+                </span>
+                <span>→</span>
+              </Link>
             </div>
           </motion.div>
         )}

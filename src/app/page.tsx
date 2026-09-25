@@ -16,7 +16,8 @@ import {
   PenTool,
   Rocket,
   Award,
-  Briefcase
+  Briefcase,
+  Lock
 } from "lucide-react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
@@ -830,8 +831,17 @@ export default function Home() {
         </div>
 
         {/* Footer Credit */}
-        <div className="mt-16 text-xs font-bold text-zinc-400 uppercase tracking-widest">
-          &copy; {new Date().getFullYear()} {profile.name || "SHIHAB"} &bull; Designed & Built with Precision
+        <div className="mt-16 pt-8 border-t border-zinc-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-bold text-zinc-400 uppercase tracking-widest">
+          <div>
+            &copy; {new Date().getFullYear()} {profile.name || "SHIHAB"} &bull; Designed &amp; Built with Precision
+          </div>
+          <Link 
+            href="/admin" 
+            className="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-900 transition-colors py-1 px-3 border border-zinc-300 hover:border-zinc-900 bg-white shadow-[2px_2px_0px_0px_rgba(24,24,27,0.1)] text-[11px] font-mono font-bold"
+          >
+            <Lock size={12} />
+            <span>Admin Portal</span>
+          </Link>
         </div>
       </section>
 
