@@ -13,16 +13,17 @@ export default function AboutPage() {
   const [academics, setAcademics] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('/api/profile').then(res => res.json()).then(data => {
+    const timestamp = Date.now();
+    fetch(`/api/profile?t=${timestamp}`, { cache: "no-store" }).then(res => res.json()).then(data => {
       if (data && typeof data === 'object' && !('error' in data)) setProfile(data);
     }).catch(console.error);
-    fetch('/api/experience').then(res => res.json()).then(data => {
+    fetch(`/api/experience?t=${timestamp}`, { cache: "no-store" }).then(res => res.json()).then(data => {
       if (Array.isArray(data)) setExperiences(data);
     }).catch(console.error);
-    fetch('/api/skills').then(res => res.json()).then(data => {
+    fetch(`/api/skills?t=${timestamp}`, { cache: "no-store" }).then(res => res.json()).then(data => {
       if (Array.isArray(data)) setSkills(data);
     }).catch(console.error);
-    fetch('/api/academic').then(res => res.json()).then(data => {
+    fetch(`/api/academic?t=${timestamp}`, { cache: "no-store" }).then(res => res.json()).then(data => {
       if (Array.isArray(data)) setAcademics(data);
     }).catch(console.error);
   }, []);

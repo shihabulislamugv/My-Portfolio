@@ -13,7 +13,7 @@ export function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    fetch('/api/profile')
+    fetch(`/api/profile?t=${Date.now()}`, { cache: "no-store" })
       .then(res => res.json())
       .then(data => {
         if (data && data.name) {

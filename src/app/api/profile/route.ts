@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { isAuthenticated } from "@/lib/check-auth";
+import { revalidatePath } from "next/cache";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const defaultProfile = {
   name: "SHIHAB.",
@@ -14,13 +16,19 @@ const defaultProfile = {
   resumeUrl: "",
 };
 
+const noCacheHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+  "CDN-Cache-Control": "no-store",
+  "Vercel-CDN-Cache-Control": "no-store",
+};
+
 export async function GET() {
   try {
     const profile = await prisma.profile.findFirst();
-    return NextResponse.json(profile || defaultProfile);
+    return NextResponse.json(profile || defaultProfile, { headers: noCacheHeaders });
   } catch (error: any) {
     console.error("Profile GET error:", error);
-    return NextResponse.json(defaultProfile);
+    return NextResponse.json(defaultProfile, { headers: noCacheHeaders });
   }
 }
 
@@ -56,9 +64,15 @@ export async function POST(req: Request) {
       }
     });
 
-    return NextResponse.json({ success: true, profile });
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/about");
+      revalidatePath("/admin/profile");
+    } catch {}
+
+    return NextResponse.json({ success: true, profile }, { headers: noCacheHeaders });
   } catch (error: any) {
     console.error("Failed to update profile:", error);
-    return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500, headers: noCacheHeaders });
   }
 }
