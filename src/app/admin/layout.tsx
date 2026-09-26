@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { LayoutDashboard, UserCircle, Briefcase, GraduationCap, Wrench, FolderKanban } from "lucide-react";
+import { LayoutDashboard, UserCircle, Briefcase, GraduationCap, Wrench, FolderKanban, ShieldCheck } from "lucide-react";
 
 export default async function AdminLayout({
   children,
@@ -49,6 +49,10 @@ export default async function AdminLayout({
           <Link href="/admin/projects" className="flex items-center gap-3 px-4 py-3 text-zinc-900 hover:bg-zinc-100 font-bold uppercase tracking-widest transition">
             <FolderKanban size={20} />
             <span>Projects</span>
+          </Link>
+          <Link href="/admin/security" className="flex items-center gap-3 px-4 py-3 text-zinc-900 hover:bg-zinc-100 font-bold uppercase tracking-widest transition">
+            <ShieldCheck size={20} />
+            <span>Security</span>
           </Link>
         </nav>
 

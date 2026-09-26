@@ -272,9 +272,8 @@ export function FigmaHero({ profile }: FigmaHeroProps) {
 
                 {profile.resumeUrl && (
                   <a
-                    href={profile.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/api/resume/download"
+                    download="Md_Shihabul_Islam_Resume.pdf"
                     className="inline-flex items-center gap-2 px-5 py-4 text-xs font-mono font-bold uppercase tracking-wider text-zinc-600 hover:text-blue-600 underline underline-offset-4"
                   >
                     <Download size={14} />

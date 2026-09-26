@@ -91,9 +91,8 @@ export function Nav() {
               whileTap={{ scale: 0.95 }}
             >
               <a 
-                href={resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/api/resume/download"
+                download="Md_Shihabul_Islam_Resume.pdf"
                 className="px-5 py-2.5 bg-zinc-900 text-white text-xs font-black uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] inline-flex items-center gap-2 border-2 border-zinc-900"
               >
                 <ArrowDownToLine size={15} strokeWidth={3} />
@@ -107,9 +106,8 @@ export function Nav() {
         <div className="flex items-center gap-3 md:hidden">
           {resumeUrl && (
             <a 
-              href={resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/api/resume/download"
+              download="Md_Shihabul_Islam_Resume.pdf"
               className="px-3 py-1.5 bg-blue-600 text-white text-xs font-black uppercase tracking-wider border-2 border-zinc-900"
             >
               Resume

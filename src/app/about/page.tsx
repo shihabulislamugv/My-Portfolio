@@ -97,9 +97,8 @@ export default function AboutPage() {
               <motion.a
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                href={profile.resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/api/resume/download"
+                download="Md_Shihabul_Islam_Resume.pdf"
                 className="inline-flex items-center gap-3 px-6 py-3.5 bg-zinc-900 text-white font-black uppercase tracking-widest text-xs shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] border-2 border-zinc-900 hover:bg-blue-600 transition-colors"
               >
                 <ArrowDownToLine size={16} strokeWidth={3} />
