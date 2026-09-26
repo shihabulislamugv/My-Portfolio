@@ -26,6 +26,23 @@ export async function GET() {
       return NextResponse.json({ error: 'Resume not found' }, { status: 404 });
     }
 
+    // If it's a Base64 Data URL (e.g. data:application/pdf;base64,...)
+    if (resumeUrl.startsWith('data:')) {
+      const parts = resumeUrl.split(',');
+      const meta = parts[0];
+      const base64Data = parts[1] || '';
+      const mimeMatch = meta.match(/:(.*?);/);
+      const mimeType = mimeMatch ? mimeMatch[1] : 'application/pdf';
+      const fileBuffer = Buffer.from(base64Data, 'base64');
+
+      return new NextResponse(fileBuffer, {
+        headers: {
+          'Content-Type': mimeType,
+          'Content-Disposition': 'attachment; filename="Md_Shihabul_Islam_Resume.pdf"',
+        },
+      });
+    }
+
     // If it's a relative path in public (e.g. /uploads/...)
     if (resumeUrl.startsWith('/')) {
       const filePath = join(process.cwd(), 'public', resumeUrl);
