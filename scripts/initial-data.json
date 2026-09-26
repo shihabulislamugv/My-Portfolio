@@ -1,0 +1,195 @@
+{
+  "users": [
+    {
+      "id": "cmt44nsr60000el6dzcra5s6m",
+      "email": "admin@example.com",
+      "password": "$2b$10$Unll/CD1p77Bl1wAPMLLgeRouk3UVI2XAmVCD/8fKc14orgNbaChm",
+      "createdAt": "2026-08-22T08:39:51.378Z",
+      "updatedAt": "2026-09-25T08:35:46.322Z"
+    },
+    {
+      "id": "cmugphicp0001nz2v7bi9fb1w",
+      "email": "shihabulislam.ugv@gmail.com",
+      "password": "$2b$10$Unll/CD1p77Bl1wAPMLLgeRouk3UVI2XAmVCD/8fKc14orgNbaChm",
+      "createdAt": "2026-09-25T08:35:46.346Z",
+      "updatedAt": "2026-09-25T08:35:46.346Z"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "1",
+      "name": "Shihabul",
+      "headlineLine1": "Digital ",
+      "headlineLine2": "Experiences",
+      "shortBio": "Crafting intuitive & engaging interfaces for modern digital products.",
+      "email": "shihabulislam.ugv@gmail.com",
+      "aboutText": "A passionate UX/UI Designer with 2 years of experience developing live projects and robust case studies at a fast-paced agency.",
+      "resumeUrl": "/uploads/Md_Shihabul_Islam_Resume.pdf",
+      "updatedAt": "2026-09-26T10:31:14.979Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": "cmt45dn340000yk8ciavkx7b3",
+      "title": "HI",
+      "slug": "hi",
+      "description": "segfv rtyh",
+      "thumbnail": null,
+      "role": "UI/UX Designer",
+      "timeline": "Jan 2025",
+      "problem": "fghtfh hjfgyj  jhg",
+      "solution": "fghjn thg",
+      "externalLink": null,
+      "caseStudy": "hgjngfhjh",
+      "published": true,
+      "createdAt": "2026-08-22T08:59:57.089Z",
+      "updatedAt": "2026-08-22T08:59:57.089Z"
+    },
+    {
+      "id": "cmt45dw9i0000and72oy4rq0i",
+      "title": "FinTech App Redesign",
+      "slug": "fintech-app-redesign",
+      "description": "A complete overhaul of a legacy financial tracking application, focusing on user engagement and accessibility.",
+      "thumbnail": "https://images.unsplash.com/photo-1616077168079-7e09a6a71550?q=80&w=2000&auto=format&fit=crop",
+      "role": "Lead UX/UI Designer",
+      "timeline": "Jan 2024 - Mar 2024",
+      "problem": "The original app had a 40% drop-off rate during onboarding. Users found the interface cluttered and the terminology confusing.",
+      "solution": "Implemented a conversational onboarding flow, simplified data visualization using clean charts, and introduced a comprehensive design system.",
+      "externalLink": "https://dribbble.com",
+      "caseStudy": "## Research\nWe conducted 15 user interviews...\n\n## Wireframes\nLow fidelity sketches focused on the core user journey...\n\n## Final Design\nThe new interface uses a calming blue palette...",
+      "published": true,
+      "createdAt": "2026-08-22T09:00:08.982Z",
+      "updatedAt": "2026-08-22T09:00:08.982Z"
+    },
+    {
+      "id": "cmt45dw9q0001and7ww5nowej",
+      "title": "E-Commerce Dashboard",
+      "slug": "ecommerce-dashboard",
+      "description": "Admin panel design for boutique shop owners to manage inventory, sales, and customer relations.",
+      "thumbnail": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000&auto=format&fit=crop",
+      "role": "Product Designer",
+      "timeline": "Jun 2023 - Sep 2023",
+      "problem": "Shop owners were using 3 different tools to manage their business, causing errors in stock tracking.",
+      "solution": "A unified dashboard that integrates inventory, analytics, and CRM into one seamless experience.",
+      "externalLink": "https://behance.net",
+      "caseStudy": "## Context\nShop owners need efficiency...\n\n## Prototyping\nCreated interactive prototypes in Figma...",
+      "published": true,
+      "createdAt": "2026-08-22T09:00:08.991Z",
+      "updatedAt": "2026-08-22T09:00:08.991Z"
+    },
+    {
+      "id": "cmtjyurl20001bu7brwqg38k0",
+      "title": "SmartPark — AI-Powered Parking Management",
+      "slug": "smartpark-ai-parking-management",
+      "description": "A smart parking platform that helps drivers find, reserve, and pay for parking spaces while enabling parking operators to manage their facilities efficiently.",
+      "thumbnail": "/uploads/1788345655949-286879537-images.jpg",
+      "role": "Product Designer",
+      "timeline": "8 Weeks",
+      "problem": "Finding available parking in busy areas is often frustrating and time-consuming. Drivers have limited visibility into parking availability, pricing, and location before reaching their destination.",
+      "solution": "SmartPark provides real-time parking availability, location-based search, advance reservations, digital payments, and navigation. A dedicated operator dashboard helps parking owners monitor spaces, bookings, revenue, and facility performance.",
+      "externalLink": "https://smartpark-demo.example.com",
+      "caseStudy": "# SmartPark — AI-Powered Parking Management\n\n## Overview\n\nSmartPark is a digital parking management platform designed to make finding and managing parking spaces easier for both drivers and parking operators.\n\n## Challenge\n\nDrivers often spend unnecessary time searching for available parking, while parking operators lack a centralized system to manage their spaces and bookings.\n\n### Key Challenges\n\n- Difficult to find available parking\n- No real-time availability information\n- Complicated booking process\n- Limited visibility into parking revenue\n- Manual management for parking operators\n\n## Design Goals\n\nThe main goals of the product were:\n\n1. Make parking discovery faster\n2. Simplify the reservation experience\n3. Provide transparent pricing\n4. Enable seamless digital payments\n5. Give operators better control over their facilities\n\n## UX Approach\n\nI started by mapping the complete user journey from discovering a parking location to completing payment.\n\n### User Flow\n\nSearch Parking → Select Location → View Availability → Choose Slot → Reserve → Payment → Navigation\n\n## Solution\n\nThe final product includes:\n\n- Real-time parking availability\n- Interactive map-based search\n- Parking slot reservation\n- Digital payment\n- Booking history\n- Navigation integration\n- Notifications and reminders\n- Parking operator dashboard\n- Revenue and booking analytics\n\n## Design System\n\nA scalable design system was created to maintain consistency across the platform.\n\nIt included:\n\n- Typography\n- Color tokens\n- Buttons\n- Form components\n- Cards\n- Navigation components\n- Status indicators\n- Data visualization components\n\n## Outcome\n\nThe redesigned experience creates a simpler parking journey for drivers while giving operators a centralized platform to manage their parking facilities.\n\n## Conclusion\n\nSmartPark demonstrates how thoughtful UX design can transform a traditionally frustrating offline experience into a simple and connected digital product.",
+      "published": true,
+      "createdAt": "2026-09-02T10:41:37.574Z",
+      "updatedAt": "2026-09-02T10:41:37.574Z"
+    },
+    {
+      "id": "cmuck16vq0000ia85vqm112oh",
+      "title": "LoveKonnection — Event-Driven Dating App",
+      "slug": "lovekonnection-dating-app",
+      "description": "An event-driven dating app replacing mindless swiping with real-world connections through curated events and verified check-ins.",
+      "thumbnail": "/uploads/lovekonnection-hero.png",
+      "role": "Lead UX/UI Designer & Design Systems",
+      "timeline": "3 Months (2025)",
+      "problem": "Modern dating apps have trapped users in endless loops of swiping fatigue, superficial ghosting, and low conversion to real-world dates. Users spent hours per day matching with people they would never actually meet in person.",
+      "solution": "LoveKonnection bridges the digital-to-physical gap with an event-centric paradigm. Users discover curated, interest-based social events, RSVP, and connect with other attendees before, during, and after the event. Designed a full 3-role ecosystem: User (mobile), Organizer (mobile & tablet), and Super Admin (web dashboard) across 60+ responsive screens.",
+      "externalLink": "https://www.behance.net/gallery/252952097/LoveKonnection-Dating-App-UXUI-Case-Study",
+      "caseStudy": "### Product Overview and Architecture\n\nLoveKonnection is an event-driven social dating application designed to solve dating app fatigue. Instead of endless digital swiping, the platform connects people through curated offline social gatherings such as wine tastings, speed dating, rooftop mixers, and activity workshops.\n\nThe product ecosystem connects three main roles:\n- Single Attendees: Browse curated gatherings, reserve tickets, check in at venues, and connect with people they meet.\n- Event Organizers: Publish local experiences, scan guest tickets at the door, and monitor room capacity.\n- Safety Administrators: Supervise user verification, resolve dispute reports, and ensure community standards.\n\n---\n\n### Step 1: Onboarding and Identity Verification\n\n#### Welcome and Brand Introduction\nThe welcome screen introduces the core philosophy of LoveKonnection: real chemistry happens in real life. First-time visitors view a brief preview of upcoming community mixers and begin registration with their mobile phone number.\n\n#### Phone Authentication and Access Control\nTo protect the community from spam accounts and repeat offenders, every member verifies their account using their mobile phone number. A six-digit SMS code confirms their identity immediately. If delivery is delayed, members can request a resend through WhatsApp or a short automated phone call.\n\n#### Biometric Verification and Anti-Catfishing\nTo ensure the person arriving at an event matches their profile pictures, users complete a quick front-camera verification check. The system analyzes live facial landmarks to confirm authenticity. Approved members receive a verified checkmark on their profile, while uncertain submissions are routed to human reviewers for confirmation within fifteen minutes.\n\n#### Lifestyle and Activity Calibration\nMembers customize their matchmaking preferences through interactive topic tags. Users choose their dating intentions, favorite weekend activities, and preferred search radius. The application uses this information to suggest relevant upcoming gatherings without subjecting members to tedious questionnaires.\n\n---\n\n### Step 2: Event Discovery and Schedule Exploration\n\n#### The Event Radar Feed\nThe discovery feed serves as the central hub of the application. Members can browse upcoming gatherings filtered by date, neighborhood, or event style. Each card shows the venue neighborhood, ticket cost, schedule highlights, and a real-time attendance balance meter showing male and female registration ratios so attendees know the crowd will be balanced.\n\n#### Interactive City Map\nUsers can toggle from the card feed into an interactive map view to discover gatherings happening near their home, workplace, or hotel. Tapping any map pin reveals a preview card with distance and opening hours.\n\n#### Event Dossier and Evening Itinerary\nTapping an event opens a full dossier outlining the exact timeline for the evening. For example, guests see that welcome drinks begin at 7:30 PM, conversation rotations start at 8:15 PM, and open social mingling continues from 9:30 PM onward. This transparency eases social anxiety by letting attendees know exactly what to expect.\n\n---\n\n### Step 3: Ticketing, Digital Passes, and Pre-Event Lounge\n\n#### One-Tap Ticket Reservation\nGuests can reserve their spot using Apple Pay, Google Pay, or a credit card in a streamlined checkout flow. When a user begins checkout, their seat is reserved for five minutes to prevent duplicate bookings during high-demand releases.\n\n#### Anti-Fraud Digital Pass\nUpon booking, attendees receive a digital entry pass stored directly within the application. The pass features a rolling dynamic QR code that refreshes every thirty seconds alongside an animated watermark, preventing ticket duplication or scalping.\n\n#### The 24-Hour Pre-Event Lounge\nExactly twenty-four hours before the event begins, confirmed ticket holders gain access to an exclusive pre-event lounge. Attendees can answer lighthearted icebreaker polls and see previews of verified members who will be in the room. Direct messaging remains locked until in-person check-in to preserve the excitement of meeting face-to-face first.\n\n---\n\n### Step 4: In-Venue Physical Event Experience\n\n#### Door Check-In\nWhen an attendee arrives at the venue, the event host scans their dynamic QR code using the organizer tablet application. The attendee phone provides a gentle haptic confirmation and immediately switches the screen into Live Event Mode.\n\n#### Live Event Mode and Conversation Prompts\nDuring the gathering, the application acts as an unobtrusive wingman. If a conversation pauses, tapping the conversation prompt button presents thought-provoking questions tailored to both participants based on their shared interests.\n\n#### Discrete Mutual Spark Selection\nThroughout the evening, attendees can privately mark their connection with people they met. Users select whether each person was a romantic spark, a friendly connection, or neutral. No one is ever notified of a one-sided choice, eliminating any chance of in-person awkwardness or rejection.\n\n---\n\n### Step 5: Post-Event Connections and Direct Chat\n\n#### The Morning Connection Reveal\nAt ten o'clock the morning after the event, attendees receive a notification that their connection results are ready. If two people mutually selected each other, a celebratory screen reveals their match along with shared talking points from the night before.\n\n#### Direct Messaging and Date Recommendations\nMatched pairs can begin chatting immediately within a safe, dedicated conversation window. The chat interface includes convenient buttons suggesting popular public coffee shops and venues midway between both users to help them easily plan their first individual date.\n\n---\n\n### End-to-End Experience Summary\n\n1. Account Setup: The user downloads the app, verifies their phone number, and completes biometric selfie verification.\n2. Preferences: The user chooses their dating intentions, preferred social activities, and distance radius.\n3. Event Discovery: The user browses the radar, finds a rooftop mixer, and checks the attendance balance meter.\n4. Booking: The user reviews the evening schedule, locks their seat for five minutes, and purchases a ticket.\n5. Anticipation: Twenty-four hours prior, the pre-event lounge opens with community polls and attendee previews.\n6. Arrival: The host scans the user's dynamic QR ticket at the door, unlocking live event mode.\n7. Interaction: The user mingles, uses conversation prompt cards, and privately marks people they enjoyed meeting.\n8. Morning Results: At ten in the morning, mutual sparks are revealed with zero awkwardness.\n9. First Date: The matched pair chats and schedules their first individual date at a suggested midway cafe.",
+      "published": true,
+      "createdAt": "2026-09-22T10:52:02.198Z",
+      "updatedAt": "2026-09-22T11:16:21.228Z"
+    },
+    {
+      "id": "cmuck177t0001ia85mp3b18tn",
+      "title": "This is Mauritius — Travel & Lifestyle App",
+      "slug": "this-is-mauritius-travel-app",
+      "description": "A seamless mobile travel and lifestyle platform helping international tourists and locals discover curated venues, activities, and hidden island gems.",
+      "thumbnail": "/uploads/mauritius-travel-hero.png",
+      "role": "Product Designer (Mobile & UX Research)",
+      "timeline": "2 Months (2024)",
+      "problem": "Tourists visiting Mauritius struggled to find authentic local activities beyond traditional resort confines. Information was fragmented across outdated blogs, slow hotel brochures, and scattered tour operators.",
+      "solution": "Created an all-in-one destination companion app featuring curated category filters (beaches, waterfalls, restaurants, nightspots, cultural tours), offline interactive maps, personalized itinerary generators, and frictionless direct booking.",
+      "externalLink": "https://www.behance.net/gallery/239553571/This-is-Mauritius-Travel-App-UXUI-Case-Study",
+      "caseStudy": "### Product Overview and Architecture\n\nThis is Mauritius is a comprehensive mobile travel and lifestyle application designed to streamline island exploration for international travelers and local residents alike.\n\n---\n\n### Step 1: Contextual Onboarding and Travel Style\n\n#### Traveler Profiling\nWhen opening the application for the first time, users choose between international traveler mode and local resident mode. International visitors receive currency conversion tools and offline navigation prompts, while local residents see weekend cultural festivals and newly opened dining spots.\n\n#### Offline Map Download\nThe application offers an optional offline map package covering the entire island under forty-five megabytes. This allows travelers to navigate scenic coastal drives and mountain trails without relying on expensive cellular roaming.\n\n---\n\n### Step 2: Island Discovery and Dynamic Feed\n\n#### Category Exploration\nTravelers can explore curated categories including secluded beaches, rainforest waterfalls, heritage rum distilleries, and catamaran excursions. Each listing includes verified photos, admission details, and recommended visiting times.\n\n#### Live Weather and Coastal Conditions\nAn integrated weather strip provides real-time marine and weather conditions across the northern, southern, eastern, and western coasts, helping visitors choose the best beach based on current wind and sunshine.\n\n---\n\n### Step 3: Smart Itinerary Planning and Bookings\n\n#### Algorithmic Route Clustering\nUsers can add multiple destinations to a custom itinerary. The application automatically clusters activities geographically to minimize travel time along winding coastal roads.\n\n#### Direct Host Communication and Reservations\nListings provide one-tap links to connect with local excursion operators and reserve dining tables directly via WhatsApp or online booking.",
+      "published": true,
+      "createdAt": "2026-09-22T10:52:02.634Z",
+      "updatedAt": "2026-09-22T11:16:21.236Z"
+    },
+    {
+      "id": "cmuck17lq0002ia853kdh6rjm",
+      "title": "Memorial Moments Magazine — Storytelling App",
+      "slug": "memorial-moments-magazine",
+      "description": "An emotional storytelling and digital magazine mobile application crafted to preserve, cherish, and celebrate legacy family memories and life milestones.",
+      "thumbnail": "/uploads/memorial-moments-hero.png",
+      "role": "Senior UI/UX Designer",
+      "timeline": "6 Weeks (2024)",
+      "problem": "Valuable family histories, memoirs, and life milestone photos are often buried in scattered chat threads and disorganized cloud drives, losing their emotional narrative over time.",
+      "solution": "Developed an editorial magazine format for mobile devices. Families collaboratively compile photos, voice memos, and written reflections into beautifully typeset, printable, and shareable digital magazines that honor cherished memories forever.",
+      "externalLink": "https://www.behance.net/gallery/235791995/Memorial-Moments-Magazine-A-Story-Telling-App",
+      "caseStudy": "### Product Overview and Architecture\n\nMemorial Moments Magazine is a collaborative mobile publishing application that turns family stories, voice memos, and archival photos into beautifully typeset digital magazines and heirloom print keepsakes.\n\n---\n\n### Step 1: Story Room Creation and Invitations\n\n#### Creating a Family Chronicle\nA family organizer creates a dedicated publication room for a milestone anniversary, a tribute, or a family heritage archive. The creator sets privacy permissions and invites relatives through secure invite links.\n\n#### Multi-Generational Contribution\nFamily members of all ages can contribute through voice recordings, scanned photographs, or written recollections. Audio recordings are automatically transcribed into readable paragraphs, making participation simple for older relatives.\n\n---\n\n### Step 2: Automated Typesetting and Reading Experience\n\n#### Intelligent Layout Engine\nThe application automatically formats contributed stories and photos into balanced magazine spreads with pull quotes, full-bleed images, and chronological dates, eliminating the need for graphic design expertise.\n\n#### Interactive Digital Reader\nFamily members can read the completed publication on smartphones or tablets with tactile page-curl animations and tap to hear original voice recordings embedded directly alongside quotes.\n\n---\n\n### Step 3: Heirloom Keepsake Printing\n\n#### Print Pre-Flight Checks\nThe system inspects vintage photos to ensure high resolution and validates page margins for hardcover bookbinding.\n\n#### Direct Home Delivery\nOrganizers can order archival hardcover or softcover editions shipped directly to relatives across different cities in a single checkout.",
+      "published": true,
+      "createdAt": "2026-09-22T10:52:03.134Z",
+      "updatedAt": "2026-09-22T11:16:21.240Z"
+    }
+  ],
+  "experiences": [
+    {
+      "id": "cmt482jjc0000etpbp4283v8x",
+      "role": "UI/UX Designer",
+      "company": "SparkTech Agency",
+      "period": "June 2024 - Present",
+      "description": "Leading end-to-end UX/UI design initiatives, developing design systems, user flows, interactive prototypes, and production-ready Figma specifications for global web and mobile products.",
+      "order": 0,
+      "createdAt": "2026-08-22T10:15:18.120Z",
+      "updatedAt": "2026-09-23T05:53:37.787Z"
+    }
+  ],
+  "academics": [
+    {
+      "id": "cmued2ngb0000hhtraeocadd5",
+      "degree": "B.Sc. in Computer Science & Engineering",
+      "institution": "University of Global Village, UGV, Barishal",
+      "period": "2020 - 2024",
+      "description": "Specialized in Human-Computer Interaction (HCI), Interface Architecture, and Software Engineering. Active lead in design & product workshops.",
+      "order": 1,
+      "createdAt": "2026-09-23T17:12:45.371Z",
+      "updatedAt": "2026-09-23T17:19:40.436Z"
+    }
+  ],
+  "skills": [
+    {
+      "id": "cmt4836y80001etpbbebwtb30",
+      "name": "UI Design",
+      "order": 0,
+      "createdAt": "2026-08-22T10:15:48.465Z"
+    },
+    {
+      "id": "cmt483jtl0002etpbjhagbu5t",
+      "name": "Wireframing",
+      "order": 1,
+      "createdAt": "2026-08-22T10:16:05.145Z"
+    },
+    {
+      "id": "cmt484nnf0003etpbcqos1lod",
+      "name": "Figma",
+      "order": 2,
+      "createdAt": "2026-08-22T10:16:56.763Z"
+    },
+    {
+      "id": "cmtjykluz0000bu7bzjsqnm98",
+      "name": "UX Research",
+      "order": 3,
+      "createdAt": "2026-09-02T10:33:43.595Z"
+    }
+  ]
+}

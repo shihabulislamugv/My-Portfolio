@@ -68,7 +68,8 @@ export default function AcademicManager({ initialAcademics }: { initialAcademics
           resetForm();
           router.refresh();
         } else {
-          alert("Failed to update entry");
+          const data = await res.json().catch(() => ({}));
+          alert(`Failed to update entry: ${data.error || res.statusText || res.status}`);
         }
       } else {
         const res = await fetch(`/api/academic`, {
@@ -82,7 +83,8 @@ export default function AcademicManager({ initialAcademics }: { initialAcademics
           resetForm();
           router.refresh();
         } else {
-          alert("Failed to create entry");
+          const data = await res.json().catch(() => ({}));
+          alert(`Failed to create entry: ${data.error || res.statusText || res.status}`);
         }
       }
     } catch (error) {

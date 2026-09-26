@@ -76,11 +76,12 @@ export default function NewProject() {
         router.push("/admin/projects");
         router.refresh();
       } else {
-        alert("Failed to create project");
+        const data = await res.json().catch(() => ({}));
+        alert(`Failed to create project: ${data.error || res.statusText || res.status}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert("Error creating project");
+      alert(`Error creating project: ${error?.message || error}`);
     } finally {
       setLoading(false);
     }

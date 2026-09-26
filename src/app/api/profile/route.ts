@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { isAuthenticated } from "@/lib/check-auth";
+import { revalidatePath } from "next/cache";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const defaultProfile = {
   name: "SHIHAB.",
@@ -15,21 +16,27 @@ const defaultProfile = {
   resumeUrl: "",
 };
 
+const noCacheHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+  "CDN-Cache-Control": "no-store",
+  "Vercel-CDN-Cache-Control": "no-store",
+};
+
 export async function GET() {
   try {
     const profile = await prisma.profile.findFirst();
-    return NextResponse.json(profile || defaultProfile);
+    return NextResponse.json(profile || defaultProfile, { headers: noCacheHeaders });
   } catch (error: any) {
     console.error("Profile GET error:", error);
-    return NextResponse.json(defaultProfile);
+    return NextResponse.json(defaultProfile, { headers: noCacheHeaders });
   }
 }
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const authed = await isAuthenticated(req);
+    if (!authed) {
+      return NextResponse.json({ error: "Unauthorized. Please re-login to your session." }, { status: 401 });
     }
 
     const body = await req.json();
@@ -37,13 +44,13 @@ export async function POST(req: Request) {
     const profile = await prisma.profile.upsert({
       where: { id: "1" },
       update: {
-        name: body.name,
-        headlineLine1: body.headlineLine1,
-        headlineLine2: body.headlineLine2,
-        shortBio: body.shortBio,
-        email: body.email,
-        aboutText: body.aboutText,
-        resumeUrl: body.resumeUrl,
+        name: body.name || "SHIHAB.",
+        headlineLine1: body.headlineLine1 || "Digital",
+        headlineLine2: body.headlineLine2 || "experiences",
+        shortBio: body.shortBio ?? "",
+        email: body.email || "hello@example.com",
+        aboutText: body.aboutText ?? "",
+        resumeUrl: body.resumeUrl ?? null,
       },
       create: {
         id: "1",
@@ -57,9 +64,15 @@ export async function POST(req: Request) {
       }
     });
 
-    return NextResponse.json({ success: true, profile });
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/about");
+      revalidatePath("/admin/profile");
+    } catch {}
+
+    return NextResponse.json({ success: true, profile }, { headers: noCacheHeaders });
   } catch (error: any) {
     console.error("Failed to update profile:", error);
-    return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500, headers: noCacheHeaders });
   }
 }

@@ -37,7 +37,8 @@ export default function Home() {
   });
 
   useEffect(() => {
-    fetch('/api/projects?published=true')
+    const timestamp = Date.now();
+    fetch(`/api/projects?published=true&t=${timestamp}`, { cache: "no-store" })
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
@@ -46,7 +47,7 @@ export default function Home() {
       })
       .catch(console.error);
       
-    fetch('/api/profile')
+    fetch(`/api/profile?t=${timestamp}`, { cache: "no-store" })
       .then(res => res.json())
       .then(data => {
         if (data && typeof data === 'object' && !('error' in data)) {
@@ -55,7 +56,7 @@ export default function Home() {
       })
       .catch(console.error);
       
-    fetch('/api/skills')
+    fetch(`/api/skills?t=${timestamp}`, { cache: "no-store" })
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
@@ -64,7 +65,7 @@ export default function Home() {
       })
       .catch(console.error);
 
-    fetch('/api/experience')
+    fetch(`/api/experience?t=${timestamp}`, { cache: "no-store" })
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
@@ -831,7 +832,7 @@ export default function Home() {
 
         {/* Footer Credit */}
         <div className="mt-16 text-xs font-bold text-zinc-400 uppercase tracking-widest">
-          &copy; {new Date().getFullYear()} {profile.name || "SHIHAB"} &bull; Designed & Built with Precision
+          &copy; {new Date().getFullYear()} {profile.name || "SHIHAB"} &bull; Designed &amp; Built with Precision
         </div>
       </section>
 

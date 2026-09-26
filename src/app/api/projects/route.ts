@@ -1,9 +1,16 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { isAuthenticated } from "@/lib/check-auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+const noCacheHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+  "CDN-Cache-Control": "no-store",
+  "Vercel-CDN-Cache-Control": "no-store",
+};
 
 export async function GET(req: NextRequest) {
   try {
@@ -17,19 +24,19 @@ export async function GET(req: NextRequest) {
       orderBy: { createdAt: "desc" }
     });
 
-    return NextResponse.json(projects);
+    return NextResponse.json(projects, { headers: noCacheHeaders });
   } catch (error) {
     console.error("Projects GET error:", error);
-    return NextResponse.json([]);
+    return NextResponse.json([], { headers: noCacheHeaders });
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const authed = await isAuthenticated(req);
     
-    if (!session) {
-      return new Response("Unauthorized", { status: 401 });
+    if (!authed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401, headers: noCacheHeaders });
     }
 
     const body = await req.json();
@@ -55,9 +62,16 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    return new Response(JSON.stringify(project), { status: 201 });
-  } catch (error) {
-    console.error(error);
-    return new Response("Internal Server Error", { status: 500 });
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/projects");
+      revalidatePath(`/projects/${slug}`);
+      revalidatePath("/admin/projects");
+    } catch {}
+
+    return NextResponse.json(project, { status: 201, headers: noCacheHeaders });
+  } catch (error: any) {
+    console.error("Failed to create project:", error);
+    return NextResponse.json({ error: error?.message || "Internal Server Error" }, { status: 500, headers: noCacheHeaders });
   }
 }

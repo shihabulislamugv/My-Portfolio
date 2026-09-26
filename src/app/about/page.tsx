@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowDownToLine, Briefcase, Award, CheckCircle2, Mail, GraduationCap } from "lucide-react";
+import { ArrowLeft, ArrowDownToLine, Briefcase, Award, CheckCircle2, Mail, GraduationCap, Lock } from "lucide-react";
 
 export default function AboutPage() {
   const [profile, setProfile] = useState<any>({});
@@ -13,16 +13,17 @@ export default function AboutPage() {
   const [academics, setAcademics] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('/api/profile').then(res => res.json()).then(data => {
+    const timestamp = Date.now();
+    fetch(`/api/profile?t=${timestamp}`, { cache: "no-store" }).then(res => res.json()).then(data => {
       if (data && typeof data === 'object' && !('error' in data)) setProfile(data);
     }).catch(console.error);
-    fetch('/api/experience').then(res => res.json()).then(data => {
+    fetch(`/api/experience?t=${timestamp}`, { cache: "no-store" }).then(res => res.json()).then(data => {
       if (Array.isArray(data)) setExperiences(data);
     }).catch(console.error);
-    fetch('/api/skills').then(res => res.json()).then(data => {
+    fetch(`/api/skills?t=${timestamp}`, { cache: "no-store" }).then(res => res.json()).then(data => {
       if (Array.isArray(data)) setSkills(data);
     }).catch(console.error);
-    fetch('/api/academic').then(res => res.json()).then(data => {
+    fetch(`/api/academic?t=${timestamp}`, { cache: "no-store" }).then(res => res.json()).then(data => {
       if (Array.isArray(data)) setAcademics(data);
     }).catch(console.error);
   }, []);
@@ -429,6 +430,16 @@ export default function AboutPage() {
               <span className="group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform">↗</span>
             </a>
           ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <Link
+            href="/admin"
+            className="inline-flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors py-1.5 px-3.5 border border-white/20 hover:border-white text-[11px] font-mono font-bold uppercase tracking-widest rounded"
+          >
+            <Lock size={12} />
+            <span>Admin Dashboard</span>
+          </Link>
         </div>
       </motion.div>
     </main>

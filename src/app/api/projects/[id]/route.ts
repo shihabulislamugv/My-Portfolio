@@ -1,18 +1,25 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { isAuthenticated } from "@/lib/check-auth";
+import { revalidatePath } from "next/cache";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+const noCacheHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+  "CDN-Cache-Control": "no-store",
+  "Vercel-CDN-Cache-Control": "no-store",
+};
 
 export async function DELETE(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const authed = await isAuthenticated(req);
+    if (!authed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401, headers: noCacheHeaders });
     }
 
     const { id } = await params;
@@ -21,10 +28,16 @@ export async function DELETE(
       where: { id },
     });
 
-    return NextResponse.json({ success: true });
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/projects");
+      revalidatePath("/admin/projects");
+    } catch {}
+
+    return NextResponse.json({ success: true }, { headers: noCacheHeaders });
   } catch (error: any) {
     console.error("Failed to delete project:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500, headers: noCacheHeaders });
   }
 }
 
@@ -33,9 +46,9 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const authed = await isAuthenticated(req);
+    if (!authed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401, headers: noCacheHeaders });
     }
 
     const { id } = await params;
@@ -58,9 +71,16 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json({ success: true, project });
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/projects");
+      if (project.slug) revalidatePath(`/projects/${project.slug}`);
+      revalidatePath("/admin/projects");
+    } catch {}
+
+    return NextResponse.json({ success: true, project }, { headers: noCacheHeaders });
   } catch (error: any) {
     console.error("Failed to update project:", error);
-    return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500, headers: noCacheHeaders });
   }
 }

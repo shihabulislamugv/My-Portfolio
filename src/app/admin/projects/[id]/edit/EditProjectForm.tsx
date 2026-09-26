@@ -74,11 +74,12 @@ export default function EditProjectForm({ project }: { project: any }) {
         router.push("/admin/projects");
         router.refresh();
       } else {
-        alert("Failed to update project");
+        const data = await res.json().catch(() => ({}));
+        alert(`Failed to update project: ${data.error || res.statusText || res.status}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert("Error updating project");
+      alert(`Error updating project: ${error?.message || error}`);
     } finally {
       setLoading(false);
     }

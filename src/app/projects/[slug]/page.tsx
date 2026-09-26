@@ -4,6 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { ExternalLink, ArrowLeft, ArrowRight, Target, Lightbulb, FileText } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const project = await prisma.project.findUnique({

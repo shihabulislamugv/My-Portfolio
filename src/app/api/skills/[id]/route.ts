@@ -1,18 +1,25 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { isAuthenticated } from "@/lib/check-auth";
+import { revalidatePath } from "next/cache";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+const noCacheHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+  "CDN-Cache-Control": "no-store",
+  "Vercel-CDN-Cache-Control": "no-store",
+};
 
 export async function DELETE(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const authed = await isAuthenticated(req);
+    if (!authed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401, headers: noCacheHeaders });
     }
 
     const { id } = await params;
@@ -21,9 +28,15 @@ export async function DELETE(
       where: { id },
     });
 
-    return NextResponse.json({ success: true });
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/about");
+      revalidatePath("/admin/skills");
+    } catch {}
+
+    return NextResponse.json({ success: true }, { headers: noCacheHeaders });
   } catch (error: any) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500, headers: noCacheHeaders });
   }
 }
 
@@ -32,9 +45,9 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const authed = await isAuthenticated(req);
+    if (!authed) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401, headers: noCacheHeaders });
     }
 
     const { id } = await params;
@@ -48,8 +61,14 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json({ success: true, skill });
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/about");
+      revalidatePath("/admin/skills");
+    } catch {}
+
+    return NextResponse.json({ success: true, skill }, { headers: noCacheHeaders });
   } catch (error: any) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500, headers: noCacheHeaders });
   }
 }

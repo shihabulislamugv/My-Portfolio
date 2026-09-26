@@ -50,6 +50,12 @@ export default function SkillManager({ initialSkills }: { initialSkills: any[] }
         if (res.ok) {
           const updated = await res.json();
           setSkills(skills.map(s => s.id === editingId ? updated.skill : s));
+          resetForm();
+          router.refresh();
+        } else {
+          const data = await res.json().catch(() => ({}));
+          alert(`Failed to update skill: ${data.error || res.statusText || res.status}`);
+          return;
         }
       } else {
         const res = await fetch(`/api/skills`, {
@@ -60,12 +66,16 @@ export default function SkillManager({ initialSkills }: { initialSkills: any[] }
         if (res.ok) {
           const created = await res.json();
           setSkills([...skills, created.skill]);
+          resetForm();
+          router.refresh();
+        } else {
+          const data = await res.json().catch(() => ({}));
+          alert(`Failed to create skill: ${data.error || res.statusText || res.status}`);
+          return;
         }
       }
-      resetForm();
-      router.refresh();
-    } catch (error) {
-      alert("Failed to save");
+    } catch (error: any) {
+      alert(`Failed to save: ${error?.message || error}`);
     }
   };
 
