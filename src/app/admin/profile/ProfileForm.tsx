@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FileText, Upload, AlertCircle, ArrowDownToLine, Trash2, CheckCircle2 } from "lucide-react";
+import { FileText, Upload, AlertCircle, ArrowDownToLine, Trash2, CheckCircle2, X, Image as ImageIcon } from "lucide-react";
 
 export default function ProfileForm({ initialData }: { initialData: any }) {
   const router = useRouter();
@@ -11,8 +11,11 @@ export default function ProfileForm({ initialData }: { initialData: any }) {
   const [pdfError, setPdfError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [resumeFileName, setResumeFileName] = useState("");
+  const [uploadingLogo, setUploadingLogo] = useState(false);
+
   const [formData, setFormData] = useState({
     name: initialData.name || "",
+    logoUrl: initialData.logoUrl || "/images/logo.png",
     headlineLine1: initialData.headlineLine1 || "",
     headlineLine2: initialData.headlineLine2 || "",
     shortBio: initialData.shortBio || "",
@@ -24,6 +27,33 @@ export default function ProfileForm({ initialData }: { initialData: any }) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingLogo(true);
+    const formPayload = new FormData();
+    formPayload.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formPayload,
+      });
+      const data = await res.json();
+      if (data.success && data.url) {
+        setFormData((prev) => ({ ...prev, logoUrl: data.url }));
+      } else {
+        alert("Upload failed: " + (data.error || "Unknown error"));
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert("Error uploading logo: " + (err?.message || err));
+    } finally {
+      setUploadingLogo(false);
+    }
   };
 
   const handlePdfUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,9 +133,78 @@ export default function ProfileForm({ initialData }: { initialData: any }) {
         </div>
       )}
 
+      {/* Brand Logo Upload Section */}
+      <div className="p-6 bg-[#f8f8f5] border-4 border-zinc-900 shadow-[6px_6px_0px_0px_rgba(24,24,27,1)] space-y-4">
+        <div>
+          <label className="text-sm font-black uppercase tracking-widest text-zinc-900 flex items-center gap-2">
+            <ImageIcon size={18} className="text-blue-600" />
+            <span>Brand Logo (Image)</span>
+          </label>
+          <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mt-1">
+            Displays in header navigation instead of plain text
+          </p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-2">
+          {/* Logo Visual Preview Box */}
+          <div className="h-24 w-36 bg-white border-2 border-zinc-900 shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] flex items-center justify-center p-2 relative shrink-0">
+            {formData.logoUrl ? (
+              <img 
+                src={formData.logoUrl} 
+                alt="Brand Logo Preview" 
+                className="max-h-full max-w-full object-contain" 
+              />
+            ) : (
+              <span className="text-xs font-mono font-bold text-zinc-400 uppercase">No Logo</span>
+            )}
+          </div>
+
+          {/* Action buttons and URL input */}
+          <div className="flex-1 space-y-3 w-full">
+            <div className="flex flex-wrap items-center gap-3">
+              <label className="px-5 py-3 bg-zinc-900 hover:bg-blue-600 text-white text-xs font-black uppercase tracking-widest border-2 border-zinc-900 shadow-[3px_3px_0px_0px_rgba(37,99,235,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer inline-flex items-center gap-2">
+                <Upload size={14} />
+                <span>{uploadingLogo ? "Uploading..." : "Upload New Logo"}</span>
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handleLogoUpload} 
+                  disabled={uploadingLogo} 
+                  className="hidden" 
+                />
+              </label>
+
+              {formData.logoUrl && (
+                <button
+                  type="button"
+                  onClick={() => setFormData((prev) => ({ ...prev, logoUrl: "" }))}
+                  className="px-4 py-3 bg-white text-red-600 hover:bg-red-50 text-xs font-black uppercase tracking-widest border-2 border-red-600 shadow-[3px_3px_0px_0px_rgba(220,38,38,1)] transition-all inline-flex items-center gap-1.5"
+                >
+                  <X size={14} />
+                  <span>Reset / Text Only</span>
+                </button>
+              )}
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-[11px] font-mono font-bold uppercase text-zinc-500">
+                Logo URL or Path
+              </label>
+              <input 
+                name="logoUrl" 
+                value={formData.logoUrl} 
+                onChange={handleChange} 
+                placeholder="/images/logo.png or image URL"
+                className="w-full px-4 py-2.5 bg-white border-2 border-zinc-900 text-xs font-mono font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-3">
-          <label className="text-sm font-black uppercase tracking-widest text-zinc-900">Display Name (Logo)</label>
+          <label className="text-sm font-black uppercase tracking-widest text-zinc-900">Display Name / Fallback Text</label>
           <input 
             name="name" 
             value={formData.name} 

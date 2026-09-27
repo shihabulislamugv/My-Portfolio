@@ -36,10 +36,13 @@ async function main() {
     const p = profiles[0];
     await prisma.profile.upsert({
       where: { id: "1" },
-      update: {},
+      update: {
+        logoUrl: p.logoUrl || "/images/logo.png",
+      },
       create: {
         id: "1",
         name: p.name || "SHIHAB.",
+        logoUrl: p.logoUrl || "/images/logo.png",
         headlineLine1: p.headlineLine1 || "Digital",
         headlineLine2: p.headlineLine2 || "experiences",
         shortBio: p.shortBio || "",

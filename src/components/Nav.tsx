@@ -9,6 +9,7 @@ import { ArrowDownToLine, Menu, X } from "lucide-react";
 export function Nav() {
   const pathname = usePathname();
   const [profileName, setProfileName] = useState("SHIHAB.");
+  const [logoUrl, setLogoUrl] = useState<string | null>("/images/logo.png");
   const [resumeUrl, setResumeUrl] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -18,6 +19,9 @@ export function Nav() {
       .then(data => {
         if (data && data.name) {
           setProfileName(data.name);
+        }
+        if (data && data.logoUrl !== undefined) {
+          setLogoUrl(data.logoUrl || "/images/logo.png");
         }
         if (data && data.resumeUrl) {
           setResumeUrl(data.resumeUrl);
@@ -48,9 +52,20 @@ export function Nav() {
         <div className="flex items-center gap-6">
           <Link 
             href="/" 
-            className="text-2xl md:text-3xl font-black uppercase tracking-widest text-zinc-900 hover:scale-105 active:scale-95 transition-transform flex items-center gap-2"
+            className="hover:scale-105 active:scale-95 transition-transform flex items-center gap-3 py-1"
+            aria-label={profileName || "Home"}
           >
-            <span>{profileName}</span>
+            {logoUrl ? (
+              <img 
+                src={logoUrl} 
+                alt={profileName || "Logo"} 
+                className="h-10 md:h-12 w-auto object-contain max-w-[150px]" 
+              />
+            ) : (
+              <span className="text-2xl md:text-3xl font-black uppercase tracking-widest text-zinc-900">
+                {profileName}
+              </span>
+            )}
           </Link>
         </div>
 
