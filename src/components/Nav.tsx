@@ -35,6 +35,22 @@ export function Nav() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setMobileMenuOpen(false);
+    if (pathname === "/") {
+      e.preventDefault();
+      const heroElement = document.getElementById("hero");
+      if (heroElement) {
+        heroElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      if (window.location.hash) {
+        window.history.pushState(null, "", "/");
+      }
+    }
+  };
+
   if (pathname.startsWith('/admin') || pathname.startsWith('/login')) {
     return null;
   }
@@ -51,8 +67,9 @@ export function Nav() {
         {/* Brand Logo */}
         <div className="flex items-center gap-6">
           <Link 
-            href="/" 
-            className="hover:scale-105 active:scale-95 transition-transform flex items-center gap-3 py-1"
+            href="/#hero" 
+            onClick={handleLogoClick}
+            className="hover:scale-105 active:scale-95 transition-transform flex items-center gap-3 py-1 cursor-pointer"
             aria-label={profileName || "Home"}
           >
             {logoUrl ? (
