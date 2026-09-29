@@ -16,7 +16,7 @@ import {
   Award,
   Briefcase
 } from "lucide-react";
-import { motion, useScroll } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { FigmaHero } from "@/components/FigmaHero";
 
@@ -28,10 +28,16 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
 
   const containerRef = useRef<HTMLElement>(null);
+  const footerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
+  const { scrollYProgress: footerScrollProgress } = useScroll({
+    target: footerRef,
+    offset: ["start end", "end end"]
+  });
+  const footerParallaxY = useTransform(footerScrollProgress, [0, 1], [50, 0]);
 
   useEffect(() => {
     const timestamp = Date.now();
@@ -670,25 +676,132 @@ export default function Home() {
       </section>
 
       {/* Massive CTA & Interactive Collaboration Section */}
-      <section className="py-40 px-6 max-w-[90rem] mx-auto text-center relative">
-        <h2 className="text-[12vw] font-black tracking-tighter uppercase leading-[0.88] mb-12 select-none">
-          Let's Build <br className="hidden md:inline" />
-          <span className="text-zinc-400 italic font-serif lowercase tracking-normal">something</span> <br />
-          Great.
-        </h2>
+      <motion.section 
+        ref={footerRef}
+        style={{ y: footerParallaxY }}
+        className="py-32 md:py-40 px-6 max-w-[90rem] mx-auto text-center relative overflow-hidden"
+      >
+        {/* Availability Badge Pill */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="inline-flex items-center gap-2.5 px-4 py-2 bg-white border-2 border-zinc-900 shadow-[3px_3px_0px_0px_rgba(24,24,27,1)] text-xs font-mono font-bold uppercase tracking-widest text-zinc-900 mb-10"
+        >
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span>Available For New Projects &bull; 2026</span>
+        </motion.div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 max-w-xl mx-auto mb-16">
-          
+        {/* Animated Staggered Mask Headline */}
+        <motion.h2
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.14,
+              },
+            },
+          }}
+          className="text-[12vw] font-black tracking-tighter uppercase leading-[0.88] mb-10 select-none"
+        >
+          <div className="overflow-hidden py-1">
+            <motion.span
+              className="inline-block"
+              variants={{
+                hidden: { y: "120%", opacity: 0, rotate: 2 },
+                visible: {
+                  y: "0%",
+                  opacity: 1,
+                  rotate: 0,
+                  transition: {
+                    duration: 0.85,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                },
+              }}
+            >
+              Let&apos;s Build
+            </motion.span>
+          </div>
+
+          <div className="overflow-hidden py-1">
+            <motion.span
+              className="inline-block text-zinc-400 italic font-serif lowercase tracking-normal"
+              variants={{
+                hidden: { y: "120%", opacity: 0, rotate: -2 },
+                visible: {
+                  y: "0%",
+                  opacity: 1,
+                  rotate: 0,
+                  transition: {
+                    duration: 0.85,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                },
+              }}
+            >
+              something
+            </motion.span>
+          </div>
+
+          <div className="overflow-hidden py-1">
+            <motion.span
+              className="inline-block"
+              variants={{
+                hidden: { y: "120%", opacity: 0, rotate: 2 },
+                visible: {
+                  y: "0%",
+                  opacity: 1,
+                  rotate: 0,
+                  transition: {
+                    duration: 0.85,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                },
+              }}
+            >
+              Great.
+            </motion.span>
+          </div>
+        </motion.h2>
+
+        {/* Sub-headline Text */}
+        <motion.p
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="text-base md:text-xl text-zinc-600 font-bold max-w-xl mx-auto mb-14 leading-relaxed"
+        >
+          Have a product idea, design inquiry, or collaboration in mind? Let&apos;s craft something remarkable.
+        </motion.p>
+
+        {/* Buttons Entrance */}
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-6 max-w-xl mx-auto mb-16"
+        >
           {/* Direct Email Link */}
-          <a 
+          <motion.a 
+            whileHover={{ scale: 1.03, y: -2 }}
+            whileTap={{ scale: 0.97 }}
             href={`mailto:${profile.email || "hello@example.com"}`} 
             className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-5 bg-zinc-900 text-white font-black text-lg uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[6px_6px_0px_0px_rgba(24,24,27,1)] border-2 border-zinc-900"
           >
             Send Email Directly
-          </a>
+          </motion.a>
 
           {/* One-Click Copy Button */}
-          <button 
+          <motion.button 
+            whileHover={{ scale: 1.03, y: -2 }}
+            whileTap={{ scale: 0.97 }}
             onClick={copyEmail}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-5 bg-white text-zinc-900 font-black text-lg uppercase tracking-widest hover:bg-zinc-100 transition-colors shadow-[6px_6px_0px_0px_rgba(24,24,27,1)] border-2 border-zinc-900 active:translate-x-1 active:translate-y-1"
           >
@@ -703,35 +816,69 @@ export default function Home() {
                 <span>Copy Email</span>
               </>
             )}
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
         {/* Social / Direct Connect Links */}
-        <div className="flex flex-wrap justify-center items-center gap-8 text-sm font-black uppercase tracking-widest border-t-2 border-zinc-900/20 pt-12 max-w-3xl mx-auto">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.08,
+                delayChildren: 0.65,
+              },
+            },
+          }}
+          className="flex flex-wrap justify-center items-center gap-8 text-sm font-black uppercase tracking-widest border-t-2 border-zinc-900/20 pt-12 max-w-3xl mx-auto"
+        >
           {[
             { label: "LinkedIn", href: "https://www.linkedin.com/in/md-shihabul-islam404/" },
             { label: "GitHub", href: "https://github.com/shihabulislamugv" },
             { label: "Dribbble", href: "https://dribbble.com/Shihabul_Islam002" },
             { label: "Behance", href: "https://www.behance.net/mdshihabulislam" },
           ].map((social) => (
-            <a 
+            <motion.a 
               key={social.label}
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
+              variants={{
+                hidden: { opacity: 0, y: 15 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.5, ease: "easeOut" }
+                }
+              }}
+              whileHover={{ y: -3 }}
               className="hover:text-blue-600 transition-colors inline-flex items-center gap-1 group"
             >
               <span>{social.label}</span>
               <span className="group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform">↗</span>
-            </a>
+            </motion.a>
           ))}
-        </div>
+        </motion.div>
 
         {/* Footer Credit */}
-        <div className="mt-16 text-xs font-bold text-zinc-400 uppercase tracking-widest">
-          &copy; {new Date().getFullYear()} {profile.name || "SHIHAB"} &bull; Designed &amp; Built with Precision
-        </div>
-      </section>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="mt-16 text-xs font-bold text-zinc-400 uppercase tracking-widest flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <span>&copy; {new Date().getFullYear()} {profile.name || "SHIHAB"} &bull; Designed &amp; Built with Precision</span>
+          <span className="hidden sm:inline text-zinc-300">&bull;</span>
+          <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-zinc-500">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            Based in Dhaka, Bangladesh (GMT+6)
+          </span>
+        </motion.div>
+      </motion.section>
 
     </main>
   );
