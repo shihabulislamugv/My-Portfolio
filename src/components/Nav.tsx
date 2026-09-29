@@ -35,6 +35,79 @@ export function Nav() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
+  const [activeSection, setActiveSection] = useState<string>('hero');
+
+  // Track active section on homepage
+  useEffect(() => {
+    if (pathname !== '/') return;
+
+    const sectionIds = ['hero', 'projects', 'experience', 'process'];
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 200;
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            setActiveSection(id);
+            return;
+          }
+        }
+      }
+      if (window.scrollY < 200) {
+        setActiveSection('hero');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [pathname]);
+
+  const navItems = [
+    { label: 'Home', href: '/#hero' },
+    { label: 'Work', href: '/#projects' },
+    { label: 'Experience', href: '/#experience' },
+    { label: 'Process', href: '/#process' },
+    { label: 'About', href: '/about' },
+    { label: 'All Projects', href: '/projects' },
+  ];
+
+  const handleNavClick = (item: { label: string; href: string }, e: React.MouseEvent<HTMLAnchorElement>) => {
+    setMobileMenuOpen(false);
+    if (item.label === 'Home') {
+      if (pathname === '/') {
+        e.preventDefault();
+        const heroElement = document.getElementById('hero');
+        if (heroElement) {
+          heroElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        if (window.location.hash) {
+          window.history.pushState(null, '', '/');
+        }
+      }
+    }
+  };
+
+  const isItemActive = (item: { label: string; href: string }) => {
+    if (item.href === '/projects') {
+      return pathname.startsWith('/projects');
+    }
+    if (item.href === '/about') {
+      return pathname === '/about';
+    }
+    if (pathname === '/') {
+      if (item.label === 'Home') {
+        return activeSection === 'hero';
+      }
+      return activeSection === item.href.replace('/#', '');
+    }
+    return false;
+  };
+
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     setMobileMenuOpen(false);
     if (pathname === "/") {
@@ -87,26 +160,21 @@ export function Nav() {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-10">
-          {[
-            { label: 'Work', href: '/#projects' },
-            { label: 'Experience', href: '/#experience' },
-            { label: 'Process', href: '/#process' },
-            { label: 'About', href: '/about' },
-            { label: 'All Projects', href: '/projects' },
-          ].map((item, idx) => {
-            const isActive = pathname === item.href || (item.href === '/projects' && pathname.startsWith('/projects'));
+        <nav className="hidden md:flex items-center gap-5 lg:gap-8 xl:gap-10">
+          {navItems.map((item, idx) => {
+            const isActive = isItemActive(item);
             return (
               <motion.div
                 key={item.label}
                 initial={{ opacity: 0, y: -15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 + idx * 0.08 }}
+                transition={{ delay: 0.12 + idx * 0.06 }}
               >
                 <Link 
                   href={item.href}
                   prefetch={true}
-                  className={`text-base font-black uppercase tracking-wider relative group py-1 transition-colors ${isActive ? 'text-blue-600' : 'text-zinc-900 hover:text-blue-600'}`}
+                  onClick={(e) => handleNavClick(item, e)}
+                  className={`text-sm lg:text-base font-black uppercase tracking-wider relative group py-1 transition-colors ${isActive ? 'text-blue-600' : 'text-zinc-900 hover:text-blue-600'}`}
                 >
                   {item.label}
                   <span className={`absolute -bottom-1 left-0 h-0.5 bg-blue-600 transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -126,7 +194,7 @@ export function Nav() {
               <a 
                 href="/api/resume/download"
                 download="Md_Shihabul_Islam_Resume.pdf"
-                className="px-5 py-2.5 bg-zinc-900 text-white text-xs font-black uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] inline-flex items-center gap-2 border-2 border-zinc-900"
+                className="px-4 lg:px-5 py-2 lg:py-2.5 bg-zinc-900 text-white text-xs font-black uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] inline-flex items-center gap-2 border-2 border-zinc-900"
               >
                 <ArrowDownToLine size={15} strokeWidth={3} />
                 Resume
@@ -167,18 +235,12 @@ export function Nav() {
             className="md:hidden bg-zinc-100 border-t-2 border-zinc-900 px-6 py-6 overflow-hidden"
           >
             <div className="flex flex-col gap-4">
-              {[
-                { label: 'Work', href: '/#projects' },
-                { label: 'Experience', href: '/#experience' },
-                { label: 'Process', href: '/#process' },
-                { label: 'About', href: '/about' },
-                { label: 'All Projects', href: '/projects' },
-              ].map((item) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
                   prefetch={true}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => handleNavClick(item, e)}
                   className="text-2xl font-black uppercase tracking-tight py-2 border-b-2 border-zinc-300 flex items-center justify-between"
                 >
                   <span>{item.label}</span>
