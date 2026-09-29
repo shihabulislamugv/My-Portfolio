@@ -29,10 +29,10 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <main className="flex-1 max-w-[90rem] mx-auto px-6 pt-36 pb-32 w-full">
+    <main className="flex-1 max-w-[90rem] mx-auto px-6 pt-28 md:pt-32 pb-24 w-full">
       
       {/* Back button */}
-      <div className="mb-12">
+      <div className="mb-8">
         <Link 
           href="/" 
           className="inline-flex items-center gap-2 text-zinc-500 hover:text-black font-black uppercase tracking-widest text-sm transition"
@@ -42,18 +42,18 @@ export default function AboutPage() {
       </div>
 
       {/* Hero Header */}
-      <div className="flex flex-col lg:flex-row gap-16 mb-32 items-start lg:items-end border-b-4 border-zinc-900 pb-16">
+      <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 mb-16 md:mb-20 items-start lg:items-end border-b-4 border-zinc-900 pb-10 md:pb-12">
         <motion.div 
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="flex-1"
         >
-          <h1 className="text-[11vw] leading-[0.88] font-black tracking-tighter text-zinc-900 mb-8 uppercase select-none">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter text-zinc-900 mb-6 uppercase select-none leading-[0.95]">
             About <br />
             <span className="text-zinc-400 italic font-serif lowercase tracking-normal">the</span> Mind.
           </h1>
-          <p className="text-2xl md:text-4xl text-zinc-700 leading-tight font-medium max-w-3xl">
+          <p className="text-lg sm:text-xl md:text-2xl text-zinc-700 leading-relaxed font-medium max-w-2xl">
             {profile?.aboutText || "A passionate UX/UI Designer with 2 years of experience developing live projects and robust case studies at a fast-paced agency."}
           </p>
 
@@ -115,7 +115,7 @@ export default function AboutPage() {
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
           whileHover={{ scale: 1.03, rotate: 2 }}
-          className="w-full sm:w-80 md:w-96 aspect-[3/4] bg-zinc-200 relative border-4 border-zinc-900 shadow-[16px_16px_0px_0px_rgba(24,24,27,1)] flex-shrink-0 overflow-hidden"
+          className="w-full sm:w-72 md:w-80 aspect-[4/5] bg-zinc-200 relative border-4 border-zinc-900 shadow-[10px_10px_0px_0px_rgba(24,24,27,1)] flex-shrink-0 overflow-hidden"
         >
           <Image 
             src="/images/profile.jpg" 

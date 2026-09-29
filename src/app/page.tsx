@@ -162,6 +162,7 @@ export default function Home() {
 
             <Link 
               href="/projects" 
+              prefetch={true}
               className="inline-flex items-center gap-3 px-8 py-4 border-2 border-zinc-900 bg-white text-base font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-zinc-900 hover:text-white transition-all"
             >
               <span>Explore All Projects</span>

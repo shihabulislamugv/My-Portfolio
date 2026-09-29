@@ -105,6 +105,7 @@ export function Nav() {
               >
                 <Link 
                   href={item.href}
+                  prefetch={true}
                   className={`text-base font-black uppercase tracking-wider relative group py-1 transition-colors ${isActive ? 'text-blue-600' : 'text-zinc-900 hover:text-blue-600'}`}
                 >
                   {item.label}
@@ -176,6 +177,7 @@ export function Nav() {
                 <Link
                   key={item.label}
                   href={item.href}
+                  prefetch={true}
                   onClick={() => setMobileMenuOpen(false)}
                   className="text-2xl font-black uppercase tracking-tight py-2 border-b-2 border-zinc-300 flex items-center justify-between"
                 >

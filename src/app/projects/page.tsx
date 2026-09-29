@@ -3,8 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 30;
 
 export default async function ProjectsPage() {
   const projects = await prisma.project.findMany({
@@ -13,9 +12,9 @@ export default async function ProjectsPage() {
   });
 
   return (
-    <main className="flex-1 max-w-[90rem] mx-auto px-6 pt-36 pb-32 w-full">
+    <main className="flex-1 max-w-[90rem] mx-auto px-6 pt-28 md:pt-32 pb-24 w-full">
       {/* Return Home */}
-      <div className="mb-12">
+      <div className="mb-8">
         <Link 
           href="/" 
           className="inline-flex items-center gap-2 text-zinc-500 hover:text-black font-black uppercase tracking-widest text-sm transition"
@@ -25,15 +24,15 @@ export default async function ProjectsPage() {
       </div>
 
       {/* Header */}
-      <div className="mb-24 md:mb-32 border-b-4 border-zinc-900 pb-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
+      <div className="mb-14 md:mb-16 border-b-4 border-zinc-900 pb-8 md:pb-10 flex flex-col md:flex-row md:items-end justify-between gap-8">
         <div>
-          <h1 className="text-[12vw] leading-[0.88] font-black tracking-tighter uppercase select-none">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter uppercase leading-[0.95] select-none">
             Selected <br />
             <span className="text-zinc-400 italic font-serif lowercase tracking-normal">work.</span>
           </h1>
         </div>
         <div className="max-w-md">
-          <p className="text-xl md:text-2xl text-zinc-600 font-medium leading-relaxed mb-4">
+          <p className="text-base sm:text-lg md:text-xl text-zinc-600 font-medium leading-relaxed mb-4">
             A curated index of live client engagements, mobile product designs, design systems, and rapid prototypes.
           </p>
           <span className="text-xs font-mono font-bold uppercase tracking-widest px-3 py-1 bg-zinc-900 text-white inline-block">
