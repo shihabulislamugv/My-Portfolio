@@ -54,13 +54,12 @@ async function main() {
     console.log('Seeded profile.');
   }
 
-  // 3. Seed Projects
-  if (Array.isArray(projects)) {
+  // 3. Seed Projects (Only seed if database has 0 projects, so user deletions are never reverted)
+  const existingProjects = await prisma.project.count();
+  if (existingProjects === 0 && Array.isArray(projects)) {
     for (const pr of projects) {
-      await prisma.project.upsert({
-        where: { slug: pr.slug },
-        update: {},
-        create: {
+      await prisma.project.create({
+        data: {
           id: pr.id,
           title: pr.title,
           slug: pr.slug,
@@ -76,7 +75,9 @@ async function main() {
         },
       });
     }
-    console.log(`Seeded ${projects.length} projects.`);
+    console.log(`Seeded ${projects.length} initial projects.`);
+  } else {
+    console.log(`Database already has ${existingProjects} projects. Skipping project seed.`);
   }
 
   // 4. Seed Experience
