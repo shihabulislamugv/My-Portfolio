@@ -141,11 +141,6 @@ export default function EditProjectForm({ project }: { project: any }) {
                 className="w-full px-4 py-3 bg-transparent border-4 border-zinc-900 focus:outline-none cursor-pointer file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-black file:bg-zinc-900 file:text-white hover:file:bg-zinc-800"
               />
               {uploading && <span className="text-sm font-bold text-blue-600 animate-pulse">Uploading...</span>}
-              {formData.thumbnail && (
-                <div className="text-xs font-bold text-green-600 break-all">
-                  Uploaded: {formData.thumbnail}
-                </div>
-              )}
             </div>
           </div>
           <div className="space-y-3">
