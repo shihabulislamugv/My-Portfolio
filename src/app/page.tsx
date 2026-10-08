@@ -8,8 +8,6 @@ import {
   Sparkles, 
   Check, 
   Copy, 
-  Play, 
-  X, 
   ExternalLink,
   Layers,
   Compass,
@@ -18,7 +16,7 @@ import {
   Award,
   Briefcase
 } from "lucide-react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { FigmaHero } from "@/components/FigmaHero";
 
@@ -27,7 +25,6 @@ export default function Home() {
   const [profile, setProfile] = useState<any>({});
   const [skills, setSkills] = useState<any[]>([]);
   const [experiences, setExperiences] = useState<any[]>([]);
-  const [showreelOpen, setShowreelOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const containerRef = useRef<HTMLElement>(null);
@@ -165,6 +162,7 @@ export default function Home() {
 
             <Link 
               href="/projects" 
+              prefetch={true}
               className="inline-flex items-center gap-3 px-8 py-4 border-2 border-zinc-900 bg-white text-base font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-zinc-900 hover:text-white transition-all"
             >
               <span>Explore All Projects</span>
@@ -456,106 +454,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Media / Interactive Showreel Section */}
-      <section className="py-28 px-6 border-t-4 border-b-4 border-zinc-900 bg-zinc-900 flex justify-center text-white relative">
-        <div className="max-w-[90rem] w-full relative">
-          
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-12">
-            <div>
-              <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter">
-                2026 Interactive Reel
-              </h2>
-            </div>
-            <p className="text-zinc-400 font-bold max-w-sm mt-4 md:mt-0 text-sm md:text-base">
-              Explore 60 seconds of fluid UI transitions, micro-interactions, and mobile prototypes in motion.
-            </p>
-          </div>
-
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            whileHover={{ scale: 1.01 }}
-            transition={{ duration: 0.8 }}
-            onClick={() => setShowreelOpen(true)}
-            className="w-full aspect-video md:aspect-[21/9] bg-zinc-800 border-4 border-white relative overflow-hidden flex items-center justify-center group cursor-pointer shadow-[16px_16px_0px_0px_rgba(255,255,255,1)]"
-          >
-            {/* Ambient Background with Overlay */}
-            <div className="absolute inset-0 opacity-60 bg-[url('https://images.unsplash.com/photo-1618761714954-0b8cd0026356?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay group-hover:scale-105 transition-transform duration-1000"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/80"></div>
-            
-            {/* Center Play Button & Soundwave */}
-            <div className="relative z-10 flex flex-col items-center">
-              <motion.div 
-                whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.9 }}
-                className="w-24 h-24 md:w-32 md:h-32 bg-white text-zinc-900 rounded-full flex items-center justify-center mb-6 shadow-[0_0_50px_rgba(255,255,255,0.4)]"
-              >
-                <Play size={36} className="fill-zinc-900 translate-x-1" />
-              </motion.div>
-              
-              <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-widest mb-2">
-                Launch Showreel
-              </h3>
-              <span className="text-xs font-mono font-bold tracking-widest text-zinc-300 uppercase px-4 py-1.5 border border-white/30 rounded-full backdrop-blur-sm">
-                Runtime: 01:15 &bull; 4K 60FPS
-              </span>
-            </div>
-
-            {/* Corner Markers */}
-            <div className="absolute top-6 left-6 font-mono text-xs text-white/60 tracking-widest">
-              REC ● [ 00:48:12 ]
-            </div>
-            <div className="absolute bottom-6 right-6 font-mono text-xs text-white/60 tracking-widest">
-              AUDIO: STEREO &bull; 48kHz
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Showreel Interactive Modal */}
-      <AnimatePresence>
-        {showreelOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[10000] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-12"
-          >
-            <div className="relative w-full max-w-6xl aspect-video bg-black border-4 border-white shadow-[16px_16px_0px_0px_rgba(255,255,255,1)] flex flex-col justify-center items-center">
-              
-              {/* Close Button */}
-              <button 
-                onClick={() => setShowreelOpen(false)}
-                className="absolute -top-14 right-0 text-white flex items-center gap-2 font-black uppercase tracking-widest text-sm hover:text-blue-400"
-              >
-                <span>Close [ESC]</span>
-                <X size={24} />
-              </button>
-
-              {/* Showreel Video / Interactive Simulation */}
-              <div className="relative w-full h-full flex flex-col items-center justify-center text-center p-8">
-                <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white mb-6 animate-pulse">
-                  <Play size={28} className="fill-white translate-x-0.5" />
-                </div>
-                <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight mb-4">
-                  Interactive Showreel Player
-                </h3>
-                <p className="text-zinc-400 max-w-lg font-medium text-lg mb-8">
-                  You can link your hosted YouTube, Vimeo, or MP4 video URL directly in the Admin Dashboard to stream your showreel here.
-                </p>
-                <button 
-                  onClick={() => setShowreelOpen(false)}
-                  className="px-8 py-4 bg-white text-zinc-900 font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-colors"
-                >
-                  Return To Portfolio
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* About & Verified Credentials Section */}
       <section id="about" className="py-28 px-6 bg-white border-b-4 border-zinc-900 scroll-mt-20">

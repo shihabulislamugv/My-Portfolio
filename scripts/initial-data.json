@@ -25,58 +25,11 @@
       "email": "shihabulislam.ugv@gmail.com",
       "aboutText": "A passionate UX/UI Designer with 2 years of experience developing live projects and robust case studies at a fast-paced agency.",
       "resumeUrl": "/uploads/Md_Shihabul_Islam_Resume.pdf",
-      "updatedAt": "2026-09-26T10:31:14.979Z"
+      "logoUrl": "/images/logo.png",
+      "updatedAt": "2026-09-27T10:31:14.979Z"
     }
   ],
   "projects": [
-    {
-      "id": "cmt45dn340000yk8ciavkx7b3",
-      "title": "HI",
-      "slug": "hi",
-      "description": "segfv rtyh",
-      "thumbnail": null,
-      "role": "UI/UX Designer",
-      "timeline": "Jan 2025",
-      "problem": "fghtfh hjfgyj  jhg",
-      "solution": "fghjn thg",
-      "externalLink": null,
-      "caseStudy": "hgjngfhjh",
-      "published": true,
-      "createdAt": "2026-08-22T08:59:57.089Z",
-      "updatedAt": "2026-08-22T08:59:57.089Z"
-    },
-    {
-      "id": "cmt45dw9i0000and72oy4rq0i",
-      "title": "FinTech App Redesign",
-      "slug": "fintech-app-redesign",
-      "description": "A complete overhaul of a legacy financial tracking application, focusing on user engagement and accessibility.",
-      "thumbnail": "https://images.unsplash.com/photo-1616077168079-7e09a6a71550?q=80&w=2000&auto=format&fit=crop",
-      "role": "Lead UX/UI Designer",
-      "timeline": "Jan 2024 - Mar 2024",
-      "problem": "The original app had a 40% drop-off rate during onboarding. Users found the interface cluttered and the terminology confusing.",
-      "solution": "Implemented a conversational onboarding flow, simplified data visualization using clean charts, and introduced a comprehensive design system.",
-      "externalLink": "https://dribbble.com",
-      "caseStudy": "## Research\nWe conducted 15 user interviews...\n\n## Wireframes\nLow fidelity sketches focused on the core user journey...\n\n## Final Design\nThe new interface uses a calming blue palette...",
-      "published": true,
-      "createdAt": "2026-08-22T09:00:08.982Z",
-      "updatedAt": "2026-08-22T09:00:08.982Z"
-    },
-    {
-      "id": "cmt45dw9q0001and7ww5nowej",
-      "title": "E-Commerce Dashboard",
-      "slug": "ecommerce-dashboard",
-      "description": "Admin panel design for boutique shop owners to manage inventory, sales, and customer relations.",
-      "thumbnail": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000&auto=format&fit=crop",
-      "role": "Product Designer",
-      "timeline": "Jun 2023 - Sep 2023",
-      "problem": "Shop owners were using 3 different tools to manage their business, causing errors in stock tracking.",
-      "solution": "A unified dashboard that integrates inventory, analytics, and CRM into one seamless experience.",
-      "externalLink": "https://behance.net",
-      "caseStudy": "## Context\nShop owners need efficiency...\n\n## Prototyping\nCreated interactive prototypes in Figma...",
-      "published": true,
-      "createdAt": "2026-08-22T09:00:08.991Z",
-      "updatedAt": "2026-08-22T09:00:08.991Z"
-    },
     {
       "id": "cmtjyurl20001bu7brwqg38k0",
       "title": "SmartPark — AI-Powered Parking Management",

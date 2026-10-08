@@ -25,7 +25,8 @@ export async function POST(request: Request) {
       }
 
       const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-      const filename = `${uniqueSuffix}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
+      const cleanName = file.name ? file.name.replace(/[^a-zA-Z0-9.-]/g, '') : 'upload.bin';
+      const filename = `${uniqueSuffix}-${cleanName}`;
       const filepath = join(uploadDir, filename);
 
       await writeFile(filepath, buffer);

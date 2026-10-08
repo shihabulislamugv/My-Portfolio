@@ -46,7 +46,8 @@ export function FigmaHero({ profile }: FigmaHeroProps) {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-[96vh] flex flex-col justify-between px-4 sm:px-6 pt-24 sm:pt-28 pb-10 overflow-hidden bg-[#f8f8f5] select-none"
+      id="hero"
+      className="relative min-h-[96vh] flex flex-col justify-between px-4 sm:px-6 pt-24 sm:pt-28 pb-10 overflow-hidden bg-[#f8f8f5] select-none scroll-mt-24"
     >
       {/* 1. Canvas Dot Grid Background */}
       <div 

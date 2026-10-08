@@ -36,6 +36,7 @@ model Project {
 model Profile {
   id           String   @id @default("1")
   name         String   @default("SHIHAB.")
+  logoUrl      String?  @default("/images/logo.png")
   headlineLine1 String  @default("Digital")
   headlineLine2 String  @default("experiences")
   shortBio     String   @default("Crafting intuitive & engaging interfaces for modern digital products.")

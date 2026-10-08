@@ -8,6 +8,7 @@ export const revalidate = 0;
 
 const defaultProfile = {
   name: "SHIHAB.",
+  logoUrl: "/images/logo.png",
   headlineLine1: "Digital",
   headlineLine2: "experiences",
   shortBio: "Crafting intuitive & engaging interfaces for modern digital products.",
@@ -45,6 +46,7 @@ export async function POST(req: Request) {
       where: { id: "1" },
       update: {
         name: body.name || "SHIHAB.",
+        logoUrl: body.logoUrl !== undefined ? body.logoUrl : "/images/logo.png",
         headlineLine1: body.headlineLine1 || "Digital",
         headlineLine2: body.headlineLine2 || "experiences",
         shortBio: body.shortBio ?? "",
@@ -55,6 +57,7 @@ export async function POST(req: Request) {
       create: {
         id: "1",
         name: body.name || "SHIHAB.",
+        logoUrl: body.logoUrl || "/images/logo.png",
         headlineLine1: body.headlineLine1 || "Digital",
         headlineLine2: body.headlineLine2 || "experiences",
         shortBio: body.shortBio || "",
