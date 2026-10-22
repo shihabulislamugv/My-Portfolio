@@ -19,6 +19,7 @@ import {
 import { motion, useScroll } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { FigmaHero } from "@/components/FigmaHero";
+import { NorellIntroLoader } from "@/components/NorellIntroLoader";
 
 export default function Home() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -26,12 +27,22 @@ export default function Home() {
   const [skills, setSkills] = useState<any[]>([]);
   const [experiences, setExperiences] = useState<any[]>([]);
   const [copied, setCopied] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
+  const [isHeroRevealed, setIsHeroRevealed] = useState(false);
 
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
+
+  useEffect(() => {
+    // If arriving with a hash (e.g. /#projects), skip intro directly
+    if (typeof window !== "undefined" && window.location.hash && window.location.hash.length > 1) {
+      setShowLoader(false);
+      setIsHeroRevealed(true);
+    }
+  }, []);
 
   useEffect(() => {
     const timestamp = Date.now();
@@ -84,13 +95,25 @@ export default function Home() {
   ];
 
   return (
-    <main ref={containerRef} className="flex-1 relative overflow-hidden">
-      
-      {/* Figma Canvas Creative Hero */}
-      <FigmaHero profile={profile} />
+    <>
+      {showLoader && (
+        <NorellIntroLoader
+          brandName={profile.name ? `${profile.name}®` : "SHIHABUL ISLAM®"}
+          roleTitle="Senior UX/UI & Product Designer — 2026"
+          onComplete={() => {
+            setShowLoader(false);
+            setIsHeroRevealed(true);
+          }}
+        />
+      )}
 
-      {/* Metrics / Key Numbers Bar */}
-      <section className="border-y-4 border-zinc-900 bg-white py-12 px-6">
+      <main ref={containerRef} className="flex-1 relative overflow-hidden">
+        
+        {/* Figma Canvas Creative Hero with Norell Kinetic Letter Reveal */}
+        <FigmaHero profile={profile} isRevealed={isHeroRevealed} />
+
+        {/* Metrics / Key Numbers Bar */}
+        <section className="border-y-4 border-zinc-900 bg-white py-12 px-6">
         <div className="max-w-[90rem] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {[
             { metric: "02+", label: "Years Experience", sub: "Agency & Product" },
@@ -735,5 +758,6 @@ export default function Home() {
       </section>
 
     </main>
+    </>
   );
 }
