@@ -27,12 +27,10 @@ interface FigmaHeroProps {
     shortBio?: string;
     email?: string;
     resumeUrl?: string;
-    name?: string;
   };
-  isRevealed?: boolean;
 }
 
-export function FigmaHero({ profile, isRevealed = true }: FigmaHeroProps) {
+export function FigmaHero({ profile }: FigmaHeroProps) {
   const [activeTool, setActiveTool] = useState<"cursor" | "frame" | "pen" | "text" | "comment" | "ai">("cursor");
   const [showComment, setShowComment] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -44,10 +42,6 @@ export function FigmaHero({ profile, isRevealed = true }: FigmaHeroProps) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2200);
   };
-
-  const line1Text = profile.headlineLine1 || "Digital";
-  const line2Text = profile.headlineLine2 || "experiences";
-  const line3Text = "That Convert";
 
   return (
     <section 
@@ -87,11 +81,8 @@ export function FigmaHero({ profile, isRevealed = true }: FigmaHeroProps) {
             <span>↗</span>
           </Link>
 
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 border border-emerald-300 text-emerald-700 rounded text-xs font-bold shadow-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
+          <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 border border-emerald-300 text-emerald-700 rounded text-xs font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Available for Hire</span>
           </span>
         </div>
@@ -239,116 +230,30 @@ export function FigmaHero({ profile, isRevealed = true }: FigmaHeroProps) {
             {/* Left Column: Big Editorial Typography & Actions */}
             <div className="lg:col-span-7 space-y-6">
               
-              {/* Designer Category Pill with Masked Reveal */}
-              <div className="overflow-hidden">
-                <motion.div 
-                  initial={{ y: "110%", opacity: 0 }}
-                  animate={{ y: isRevealed ? "0%" : "110%", opacity: isRevealed ? 1 : 0 }}
-                  transition={{ duration: 0.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-                  className="inline-flex items-center gap-2 px-3 py-1 bg-zinc-100 border border-zinc-900 text-zinc-900 text-xs font-black uppercase tracking-widest shadow-sm"
-                >
-                  <span className="w-2 h-2 rounded-full bg-blue-600" />
-                  <span>Senior UX/UI &bull; Product Designer</span>
-                </motion.div>
+              {/* Designer Category Pill */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-zinc-100 border border-zinc-900 text-zinc-900 text-xs font-black uppercase tracking-widest">
+                <span className="w-2 h-2 rounded-full bg-blue-600" />
+                <span>Senior UX/UI &bull; Product Designer</span>
               </div>
 
-              {/* Massive Headline with Norell-Style Masked Kinetic Typography */}
-              <h1 className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-black text-zinc-900 uppercase tracking-tighter leading-[0.92] select-none">
-                
-                {/* Line 1: Digital (Letter by Letter Reveal) */}
-                <span className="block overflow-hidden py-1">
-                  <span className="inline-flex flex-wrap">
-                    {Array.from(line1Text).map((char, idx) => (
-                      <span key={idx} className="inline-block overflow-hidden align-bottom">
-                        <motion.span
-                          initial={{ y: "120%" }}
-                          animate={{ y: isRevealed ? "0%" : "120%" }}
-                          transition={{ 
-                            duration: 1.1, 
-                            delay: 0.1 + idx * 0.045, 
-                            ease: [0.16, 1, 0.3, 1] 
-                          }}
-                          className="inline-block"
-                        >
-                          {char === " " ? "\u00A0" : char}
-                        </motion.span>
-                      </span>
-                    ))}
-                  </span>
+              {/* Massive Headline */}
+              <h1 className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-black text-zinc-900 uppercase tracking-tighter leading-[0.92]">
+                <span>{profile.headlineLine1 || "Digital"}</span> <br />
+                <span className="text-zinc-400 italic font-serif lowercase tracking-normal">
+                  {profile.headlineLine2 || "experiences"}
+                </span>{" "}
+                <span className="text-blue-600 block text-4xl sm:text-5xl md:text-6xl mt-1">
+                  That Convert.
                 </span>
-
-                {/* Line 2: experiences (Smooth Glide Up) */}
-                <span className="block overflow-hidden py-1">
-                  <motion.span
-                    initial={{ y: "120%" }}
-                    animate={{ y: isRevealed ? "0%" : "120%" }}
-                    transition={{ 
-                      duration: 1.1, 
-                      delay: 0.32, 
-                      ease: [0.16, 1, 0.3, 1] 
-                    }}
-                    className="text-zinc-400 italic font-serif lowercase tracking-normal inline-block"
-                  >
-                    {line2Text}
-                  </motion.span>
-                </span>
-
-                {/* Line 3: That Convert. (Letters + Norell Rotating Dot) */}
-                <span className="block overflow-hidden py-1 text-blue-600 text-4xl sm:text-5xl md:text-6xl mt-1">
-                  <span className="inline-flex items-baseline flex-wrap">
-                    {Array.from(line3Text).map((char, idx) => (
-                      <span key={idx} className="inline-block overflow-hidden align-bottom">
-                        <motion.span
-                          initial={{ y: "120%" }}
-                          animate={{ y: isRevealed ? "0%" : "120%" }}
-                          transition={{ 
-                            duration: 1.1, 
-                            delay: 0.42 + idx * 0.035, 
-                            ease: [0.16, 1, 0.3, 1] 
-                          }}
-                          className="inline-block"
-                        >
-                          {char === " " ? "\u00A0" : char}
-                        </motion.span>
-                      </span>
-                    ))}
-                    {/* Norell Signature Spinning & Scaling Accent Mark */}
-                    <motion.span
-                      initial={{ scale: 0, rotate: -140 }}
-                      animate={{ scale: isRevealed ? 1 : 0, rotate: isRevealed ? 0 : -140 }}
-                      transition={{ 
-                        duration: 1.4, 
-                        delay: 0.8, 
-                        ease: [0.16, 1, 0.3, 1] 
-                      }}
-                      className="inline-block ml-0.5 text-blue-600"
-                    >
-                      .
-                    </motion.span>
-                  </span>
-                </span>
-
               </h1>
 
-              {/* Clean Bio Copy with Masked Slide-Up */}
-              <div className="overflow-hidden">
-                <motion.p
-                  initial={{ y: "100%", opacity: 0 }}
-                  animate={{ y: isRevealed ? "0%" : "100%", opacity: isRevealed ? 1 : 0 }}
-                  transition={{ duration: 1.0, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-base sm:text-lg md:text-xl text-zinc-600 font-normal leading-relaxed max-w-2xl"
-                >
-                  {profile.shortBio || "Crafting intuitive, high-conversion interfaces, scalable design systems, and robust mobile applications for ambitious digital products."}
-                </motion.p>
-              </div>
+              {/* Clean Bio Copy */}
+              <p className="text-base sm:text-lg md:text-xl text-zinc-600 font-normal leading-relaxed max-w-2xl">
+                {profile.shortBio || "Crafting intuitive, high-conversion interfaces, scalable design systems, and robust mobile applications for ambitious digital products."}
+              </p>
 
-              {/* CTA Action Buttons with Staggered Entrance */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: isRevealed ? 1 : 0, y: isRevealed ? 0 : 20 }}
-                transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="pt-2 flex flex-wrap items-center gap-4"
-              >
+              {/* CTA Action Buttons */}
+              <div className="pt-2 flex flex-wrap items-center gap-4">
                 <Link
                   href="#projects"
                   className="inline-flex items-center gap-3 px-7 py-4 bg-zinc-900 text-white font-black uppercase tracking-widest text-xs sm:text-sm shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] border-2 border-zinc-900 hover:bg-blue-600 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
@@ -376,7 +281,7 @@ export function FigmaHero({ profile, isRevealed = true }: FigmaHeroProps) {
                     <span>Download CV</span>
                   </a>
                 )}
-              </motion.div>
+              </div>
 
               {/* Quick Spec Tags */}
               <div className="pt-4 border-t border-zinc-200 flex flex-wrap gap-2 text-[11px] font-mono font-bold uppercase text-zinc-500">
@@ -723,30 +628,6 @@ export function FigmaHero({ profile, isRevealed = true }: FigmaHeroProps) {
 
         </div>
       </div>
-
-      {/* Norell Style Bottom Explore Bar */}
-      <motion.div 
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: isRevealed ? 1 : 0, y: isRevealed ? 0 : 15 }}
-        transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        className="max-w-[90rem] mx-auto w-full pt-6 mt-4 border-t-2 border-zinc-300 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono font-bold text-zinc-500 z-10"
-      >
-        <div className="flex items-center gap-2.5">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-          </span>
-          <span className="uppercase tracking-wider text-zinc-800">Shihabul Islam &bull; UX Portfolio &bull; 2026</span>
-        </div>
-        
-        <Link 
-          href="#projects"
-          className="inline-flex items-center gap-2 text-zinc-800 hover:text-blue-600 transition-colors uppercase tracking-widest group"
-        >
-          <span>Scroll to explore</span>
-          <span className="group-hover:translate-y-1 transition-transform inline-block">↓</span>
-        </Link>
-      </motion.div>
 
     </section>
   );
