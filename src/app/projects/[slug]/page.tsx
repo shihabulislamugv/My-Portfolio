@@ -7,24 +7,44 @@ import { ExternalLink, ArrowLeft, ArrowRight, Target, Lightbulb, FileText } from
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+import { getInitialProjects } from "@/lib/initial-data";
+
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = await prisma.project.findUnique({
-    where: { slug },
-  });
+  let project: any = null;
+  try {
+    project = await prisma.project.findUnique({
+      where: { slug },
+    });
+  } catch (err) {
+    console.error("Prisma error in project slug page:", err);
+  }
+
+  if (!project) {
+    const fallbackProjects = getInitialProjects();
+    project = fallbackProjects.find((p) => p.slug === slug) || null;
+  }
 
   if (!project) {
     notFound();
   }
 
   // Fetch adjacent project for "Next Project" link
-  const nextProject = await prisma.project.findFirst({
-    where: { 
-      published: true,
-      NOT: { id: project.id }
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  let nextProject: any = null;
+  try {
+    nextProject = await prisma.project.findFirst({
+      where: { 
+        published: true,
+        NOT: { id: project.id }
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  } catch {}
+
+  if (!nextProject) {
+    const fallbackProjects = getInitialProjects();
+    nextProject = fallbackProjects.find((p) => p.published && p.id !== project.id) || null;
+  }
 
   return (
     <main className="flex-1 px-6 pt-36 pb-32 max-w-[90rem] mx-auto w-full">

@@ -12,22 +12,66 @@ const noCacheHeaders = {
   "Vercel-CDN-Cache-Control": "no-store",
 };
 
+import { getInitialProjects } from "@/lib/initial-data";
+
 export async function GET(req: NextRequest) {
+  let publishedOnly = false;
   try {
     const url = new URL(req.url);
-    const publishedOnly = url.searchParams.get("published") === "true";
+    publishedOnly = url.searchParams.get("published") === "true";
 
     const whereClause = publishedOnly ? { published: true } : {};
 
-    const projects = await prisma.project.findMany({
+    let projects = await prisma.project.findMany({
       where: whereClause,
       orderBy: { createdAt: "desc" }
     });
 
+    if (projects.length === 0) {
+      const initialProjects = getInitialProjects();
+      if (initialProjects.length > 0) {
+        try {
+          for (const pr of initialProjects) {
+            await prisma.project.upsert({
+              where: { id: pr.id },
+              update: {},
+              create: {
+                id: pr.id,
+                title: pr.title,
+                slug: pr.slug,
+                description: pr.description,
+                thumbnail: pr.thumbnail,
+                role: pr.role,
+                timeline: pr.timeline,
+                problem: pr.problem,
+                solution: pr.solution,
+                externalLink: pr.externalLink,
+                caseStudy: pr.caseStudy,
+                published: Boolean(pr.published),
+              }
+            });
+          }
+          projects = await prisma.project.findMany({
+            where: whereClause,
+            orderBy: { createdAt: "desc" }
+          });
+        } catch (seedErr) {
+          console.error("Auto-seed error:", seedErr);
+        }
+      }
+
+      if (projects.length === 0) {
+        const fallback = publishedOnly ? initialProjects.filter(p => p.published) : initialProjects;
+        return NextResponse.json(fallback, { headers: noCacheHeaders });
+      }
+    }
+
     return NextResponse.json(projects, { headers: noCacheHeaders });
   } catch (error) {
     console.error("Projects GET error:", error);
-    return NextResponse.json([], { headers: noCacheHeaders });
+    const initialProjects = getInitialProjects();
+    const fallback = publishedOnly ? initialProjects.filter(p => p.published) : initialProjects;
+    return NextResponse.json(fallback, { headers: noCacheHeaders });
   }
 }
 

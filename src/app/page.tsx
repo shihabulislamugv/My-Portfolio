@@ -19,12 +19,15 @@ import {
 import { motion, useScroll } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { FigmaHero } from "@/components/FigmaHero";
+import { getInitialProjects, getInitialProfile, getInitialSkills, getInitialExperiences } from "@/lib/initial-data";
 
 export default function Home() {
-  const [projects, setProjects] = useState<any[]>([]);
-  const [profile, setProfile] = useState<any>({});
-  const [skills, setSkills] = useState<any[]>([]);
-  const [experiences, setExperiences] = useState<any[]>([]);
+  const [projects, setProjects] = useState<any[]>(() => {
+    return getInitialProjects().filter(p => p.published).slice(0, 4);
+  });
+  const [profile, setProfile] = useState<any>(() => getInitialProfile() || {});
+  const [skills, setSkills] = useState<any[]>(() => getInitialSkills());
+  const [experiences, setExperiences] = useState<any[]>(() => getInitialExperiences());
   const [copied, setCopied] = useState(false);
 
   const containerRef = useRef<HTMLElement>(null);

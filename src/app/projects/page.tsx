@@ -5,16 +5,19 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
+import { getInitialProjects } from "@/lib/initial-data";
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [projects, setProjects] = useState<any[]>(() => {
+    return getInitialProjects().filter((p: any) => p.published);
+  });
+  const [loading, setLoading] = useState(() => projects.length === 0);
 
   useEffect(() => {
     fetch(`/api/projects?published=true&t=${Date.now()}`, { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
-        if (Array.isArray(data)) {
+        if (Array.isArray(data) && data.length > 0) {
           setProjects(data);
         }
       })
