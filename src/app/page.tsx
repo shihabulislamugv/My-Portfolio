@@ -29,7 +29,6 @@ export default function Home() {
   const [profile, setProfile] = useState<any>(() => getInitialProfile() || {});
   const [skills, setSkills] = useState<any[]>(() => getInitialSkills());
   const [experiences, setExperiences] = useState<any[]>(() => getInitialExperiences());
-  const [activeCertIdx, setActiveCertIdx] = useState(0);
   const [copied, setCopied] = useState(false);
 
   const containerRef = useRef<HTMLElement>(null);
@@ -514,121 +513,114 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Left: Bio & Quick Facts */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="relative w-full max-w-sm aspect-[4/5] mx-auto lg:mx-0 border-4 border-zinc-900 shadow-[12px_12px_0px_0px_rgba(24,24,27,1)] overflow-hidden">
-                <Image 
-                  src="/images/profile.jpg" 
-                  alt="Shihabul Islam" 
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 384px"
-                  className="object-cover"
-                />
-                <div className="absolute bottom-4 left-4 right-4 bg-zinc-900/90 backdrop-blur-md p-3 text-white border border-white/20">
-                  <span className="text-xs font-mono font-bold uppercase tracking-widest block">
-                    Md. Shihabul Islam
-                  </span>
-                  <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
-                    Senior Product &amp; UX/UI Designer
-                  </span>
-                </div>
+          {/* Bio & Quick Facts Spotlight */}
+          <div className="mb-14 p-8 md:p-10 bg-[#f8f8f5] border-4 border-zinc-900 shadow-[8px_8px_0px_0px_rgba(24,24,27,1)] flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            <div className="relative w-36 h-36 md:w-44 md:h-44 shrink-0 border-4 border-zinc-900 shadow-[6px_6px_0px_0px_rgba(24,24,27,1)] overflow-hidden">
+              <Image 
+                src="/images/profile.jpg" 
+                alt="Shihabul Islam" 
+                fill
+                sizes="176px"
+                className="object-cover"
+                priority
+              />
+            </div>
+            <div className="flex-1 space-y-3 text-center md:text-left">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                <h3 className="text-2xl md:text-3xl font-black uppercase text-zinc-900">
+                  Md. Shihabul Islam
+                </h3>
+                <span className="px-3 py-1 bg-blue-600 text-white text-xs font-black uppercase tracking-widest">
+                  Senior Product &amp; UX/UI Designer
+                </span>
               </div>
-
-              <p className="text-lg md:text-xl text-zinc-700 font-medium leading-relaxed">
+              <p className="text-base md:text-lg text-zinc-700 font-medium leading-relaxed">
                 {profile.aboutText || "A passionate UX/UI Designer with 2 years of experience developing live projects and robust case studies at a fast-paced agency."}
               </p>
             </div>
+          </div>
 
-            {/* Right: Featured Certificates Showcase */}
-            <div className="lg:col-span-7 bg-[#f8f8f5] border-4 border-zinc-900 shadow-[12px_12px_0px_0px_rgba(24,24,27,1)] p-6 md:p-10 space-y-6">
-              {/* Certificate Switcher Tabs */}
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-zinc-300 pb-4">
-                <div className="flex items-center gap-2">
-                  {CERTIFICATES.map((c, idx) => (
-                    <button
-                      key={c.id}
-                      type="button"
-                      onClick={() => setActiveCertIdx(idx)}
-                      className={`px-3.5 py-1.5 text-xs font-black uppercase tracking-wider transition-all border-2 border-zinc-900 shadow-[2px_2px_0px_0px_rgba(24,24,27,1)] cursor-pointer ${
-                        activeCertIdx === idx 
-                          ? `${c.issuerBadgeBg} text-white` 
-                          : "bg-white text-zinc-700 hover:bg-zinc-100"
-                      }`}
-                    >
-                      ❖ {c.issuer} Certified
-                    </button>
-                  ))}
-                </div>
-                <span className="text-xs font-mono font-bold text-zinc-500">
-                  Issued {CERTIFICATES[activeCertIdx].issueDate}
-                </span>
-              </div>
-
-              {/* Certificate Preview Image */}
-              <div className="w-full aspect-[16/10] relative bg-white border-2 border-zinc-900 overflow-hidden shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] group">
-                <Image 
-                  src={CERTIFICATES[activeCertIdx].image} 
-                  alt={`${CERTIFICATES[activeCertIdx].issuer} ${CERTIFICATES[activeCertIdx].title} Certificate`}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 600px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <a 
-                  href={CERTIFICATES[activeCertIdx].verifyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-black uppercase tracking-widest text-xs gap-2"
-                >
-                  <span>Verify Credential on Coursera ↗</span>
-                </a>
-              </div>
-
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className={`px-2.5 py-0.5 ${CERTIFICATES[activeCertIdx].issuerBadgeBg} text-white text-[11px] font-black uppercase tracking-wider`}>
-                    {CERTIFICATES[activeCertIdx].issuer}
-                  </span>
-                  <span className="text-xs font-mono font-bold text-zinc-500">
-                    Coursera Verified
-                  </span>
-                </div>
-                <h3 className="text-2xl md:text-3xl font-black text-zinc-900 uppercase tracking-tight mb-2">
-                  {CERTIFICATES[activeCertIdx].title}
-                </h3>
-                <p className="text-sm md:text-base text-zinc-600 leading-relaxed font-normal">
-                  {CERTIFICATES[activeCertIdx].description}
-                </p>
-
-                {/* Skills tags */}
-                <div className="flex flex-wrap gap-2 pt-3">
-                  {CERTIFICATES[activeCertIdx].skills.map((s) => (
-                    <span 
-                      key={s}
-                      className="px-2.5 py-1 bg-white border border-zinc-300 text-zinc-700 text-xs font-mono font-semibold"
-                    >
-                      #{s}
+          {/* Both Certificates Shown Simultaneously (No Tabs / Taps Required) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {CERTIFICATES.map((cert) => (
+              <div 
+                key={cert.id}
+                className="bg-[#f8f8f5] border-4 border-zinc-900 shadow-[10px_10px_0px_0px_rgba(24,24,27,1)] hover:shadow-[14px_14px_0px_0px_rgba(37,99,235,1)] transition-all p-6 md:p-8 flex flex-col justify-between space-y-6"
+              >
+                {/* Header: Issuer + Verification Badges */}
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-zinc-300 pb-4">
+                  <div className="flex items-center gap-2">
+                    <span className={`px-3 py-1 ${cert.issuerBadgeBg} text-white text-xs font-black uppercase tracking-widest`}>
+                      {cert.issuer}
                     </span>
-                  ))}
+                    <span className="px-3 py-1 bg-white text-zinc-900 text-xs font-bold uppercase tracking-wider border border-zinc-300">
+                      {cert.platform}
+                    </span>
+                  </div>
+                  <span className="text-xs font-mono font-bold text-zinc-500">
+                    Issued {cert.issueDate}
+                  </span>
+                </div>
+
+                {/* High-Resolution Certificate Preview Image (Crisp & Pixel-Perfect) */}
+                <div className="w-full aspect-[1.91/1] relative bg-white border-2 border-zinc-900 overflow-hidden shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] group">
+                  <Image 
+                    src={cert.image} 
+                    alt={`${cert.issuer} ${cert.title} Certificate`}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 700px"
+                    unoptimized
+                    priority
+                    className="object-contain group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <a 
+                    href={cert.verifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-black uppercase tracking-widest text-xs gap-2"
+                  >
+                    <span>Verify Credential on Coursera ↗</span>
+                  </a>
+                </div>
+
+                {/* Title & Description */}
+                <div className="space-y-3 flex-1">
+                  <h3 className="text-2xl md:text-3xl font-black text-zinc-900 uppercase tracking-tight leading-tight">
+                    {cert.title}
+                  </h3>
+                  <p className="text-sm md:text-base text-zinc-600 leading-relaxed font-normal">
+                    {cert.description}
+                  </p>
+
+                  {/* Skills tags */}
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    {cert.skills.map((s) => (
+                      <span 
+                        key={s}
+                        className="px-2.5 py-1 bg-white border border-zinc-300 text-zinc-700 text-xs font-mono font-semibold"
+                      >
+                        #{s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Link & ID */}
+                <div className="pt-4 flex flex-wrap gap-4 items-center justify-between border-t-2 border-zinc-200">
+                  <a 
+                    href={cert.verifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] border-2 border-zinc-900"
+                  >
+                    <span>Verify Credential on Coursera ↗</span>
+                  </a>
+                  <span className="text-xs font-mono text-zinc-500">
+                    ID: {cert.verificationId}
+                  </span>
                 </div>
               </div>
-
-              <div className="pt-2 flex flex-wrap gap-4 items-center justify-between border-t-2 border-zinc-200">
-                <a 
-                  href={CERTIFICATES[activeCertIdx].verifyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] border-2 border-zinc-900"
-                >
-                  <span>Verify Credential on Coursera ↗</span>
-                </a>
-                <span className="text-xs font-mono text-zinc-500">
-                  ID: {CERTIFICATES[activeCertIdx].verificationId}
-                </span>
-              </div>
-            </div>
-
+            ))}
           </div>
         </div>
       </section>

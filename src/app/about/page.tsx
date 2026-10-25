@@ -223,14 +223,15 @@ export default function AboutPage() {
                 href={cert.verifyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full lg:w-96 aspect-[4/3] relative bg-zinc-100 border-2 border-zinc-900 overflow-hidden shrink-0 shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] group block cursor-pointer"
+                className="w-full lg:w-[420px] aspect-[1.91/1] relative bg-white border-2 border-zinc-900 overflow-hidden shrink-0 shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] group block cursor-pointer"
               >
                 <Image 
                   src={cert.image} 
                   alt={`${cert.issuer} ${cert.title} Certificate`}
                   fill
-                  sizes="(max-width: 1024px) 100vw, 384px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 1024px) 100vw, 420px"
+                  unoptimized
+                  className="object-contain group-hover:scale-105 transition-transform duration-500"
                   priority
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-black uppercase tracking-widest text-xs gap-2">
