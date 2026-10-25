@@ -5,12 +5,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowDownToLine, Briefcase, Award, CheckCircle2, Mail, GraduationCap, Lock } from "lucide-react";
+import { CERTIFICATES } from "@/lib/certificates";
+import { getInitialProfile, getInitialExperiences, getInitialSkills, getInitialAcademics } from "@/lib/initial-data";
 
 export default function AboutPage() {
-  const [profile, setProfile] = useState<any>({});
-  const [experiences, setExperiences] = useState<any[]>([]);
-  const [skills, setSkills] = useState<any[]>([]);
-  const [academics, setAcademics] = useState<any[]>([]);
+  const [profile, setProfile] = useState<any>(() => getInitialProfile() || {});
+  const [experiences, setExperiences] = useState<any[]>(() => getInitialExperiences());
+  const [skills, setSkills] = useState<any[]>(() => getInitialSkills());
+  const [academics, setAcademics] = useState<any[]>(() => getInitialAcademics());
 
   useEffect(() => {
     const timestamp = Date.now();
@@ -210,64 +212,83 @@ export default function AboutPage() {
           </span>
         </div>
 
-        <div className="bg-white border-4 border-zinc-900 shadow-[12px_12px_0px_0px_rgba(24,24,27,1)] hover:shadow-[16px_16px_0px_0px_rgba(37,99,235,1)] transition-all p-6 md:p-10 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center justify-between">
-          {/* Certificate Thumbnail Preview */}
-          <a 
-            href="https://www.coursera.org/account/accomplishments/verify/J4W0KI4VK2S6"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full lg:w-96 aspect-[4/3] relative bg-zinc-100 border-2 border-zinc-900 overflow-hidden shrink-0 shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] group block cursor-pointer"
-          >
-            <Image 
-              src="/uploads/microsoft-product-design-certificate.jpg" 
-              alt="Microsoft Product Design and UX/UI Fundamentals Certificate"
-              fill
-              sizes="(max-width: 1024px) 100vw, 384px"
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-              priority
-            />
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-black uppercase tracking-widest text-xs gap-2">
-              <span>View Verified Credential ↗</span>
-            </div>
-          </a>
-
-          {/* Certificate Information */}
-          <div className="flex-1 space-y-4 w-full">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="px-3.5 py-1 bg-blue-600 text-white text-xs font-black uppercase tracking-widest">
-                Microsoft
-              </span>
-              <span className="px-3 py-1 bg-zinc-100 text-zinc-800 text-xs font-bold uppercase tracking-wider border border-zinc-300">
-                Coursera Verified
-              </span>
-              <span className="text-xs font-mono font-bold text-zinc-500">
-                Issued Sep 15, 2026
-              </span>
-            </div>
-
-            <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-zinc-900 uppercase tracking-tight leading-tight">
-              Product Design and UX/UI Fundamentals
-            </h3>
-
-            <p className="text-base md:text-lg text-zinc-600 leading-relaxed font-normal">
-              Officially issued by Microsoft via Coursera to Md. Shihabul Islam. Validates core competencies in human-centered design research, user journey mapping, information architecture, wireframing, high-fidelity UI systems, and interactive prototyping.
-            </p>
-
-            <div className="pt-2 flex flex-wrap gap-4 items-center">
+        <div className="space-y-10">
+          {CERTIFICATES.map((cert) => (
+            <div 
+              key={cert.id}
+              className="bg-white border-4 border-zinc-900 shadow-[12px_12px_0px_0px_rgba(24,24,27,1)] hover:shadow-[16px_16px_0px_0px_rgba(37,99,235,1)] transition-all p-6 md:p-10 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center justify-between"
+            >
+              {/* Certificate Thumbnail Preview */}
               <a 
-                href="https://www.coursera.org/account/accomplishments/verify/J4W0KI4VK2S6"
+                href={cert.verifyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-zinc-900 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] border-2 border-zinc-900"
+                className="w-full lg:w-96 aspect-[4/3] relative bg-zinc-100 border-2 border-zinc-900 overflow-hidden shrink-0 shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] group block cursor-pointer"
               >
-                <span>Verify Credential on Coursera</span>
-                <span className="text-base">↗</span>
+                <Image 
+                  src={cert.image} 
+                  alt={`${cert.issuer} ${cert.title} Certificate`}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 384px"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  priority
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-black uppercase tracking-widest text-xs gap-2">
+                  <span>View Verified Credential ↗</span>
+                </div>
               </a>
-              <span className="text-xs font-mono text-zinc-400">
-                Verification ID: J4W0KI4VK2S6
-              </span>
+
+              {/* Certificate Information */}
+              <div className="flex-1 space-y-4 w-full">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className={`px-3.5 py-1 ${cert.issuerBadgeBg} text-white text-xs font-black uppercase tracking-widest`}>
+                    {cert.issuer}
+                  </span>
+                  <span className="px-3 py-1 bg-zinc-100 text-zinc-800 text-xs font-bold uppercase tracking-wider border border-zinc-300">
+                    {cert.platform}
+                  </span>
+                  <span className="text-xs font-mono font-bold text-zinc-500">
+                    Issued {cert.issueDate}
+                  </span>
+                </div>
+
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-zinc-900 uppercase tracking-tight leading-tight">
+                  {cert.title}
+                </h3>
+
+                <p className="text-base md:text-lg text-zinc-600 leading-relaxed font-normal">
+                  {cert.description}
+                </p>
+
+                {/* Skills Badges */}
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {cert.skills.map((skill) => (
+                    <span 
+                      key={skill}
+                      className="px-2.5 py-1 bg-zinc-100 border border-zinc-300 text-zinc-700 text-xs font-mono font-bold"
+                    >
+                      #{skill}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="pt-2 flex flex-wrap gap-4 items-center">
+                  <a 
+                    href={cert.verifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-zinc-900 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] border-2 border-zinc-900"
+                  >
+                    <span>Verify Credential on Coursera</span>
+                    <span className="text-base">↗</span>
+                  </a>
+                  <span className="text-xs font-mono text-zinc-400">
+                    Verification ID: {cert.verificationId}
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </section>
 

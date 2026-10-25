@@ -81,6 +81,17 @@ export function FigmaHero({ profile }: FigmaHeroProps) {
             <span>↗</span>
           </Link>
 
+          <Link
+            href="https://www.coursera.org/account/accomplishments/verify/3U1SENH82PI3"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 border border-indigo-300 text-indigo-700 hover:bg-indigo-600 hover:text-white transition-colors rounded text-xs font-bold"
+          >
+            <Sparkles size={13} />
+            <span>IBM Certified</span>
+            <span>↗</span>
+          </Link>
+
           <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 border border-emerald-300 text-emerald-700 rounded text-xs font-bold">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Available for Hire</span>

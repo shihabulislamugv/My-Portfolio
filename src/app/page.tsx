@@ -20,6 +20,7 @@ import { motion, useScroll } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { FigmaHero } from "@/components/FigmaHero";
 import { getInitialProjects, getInitialProfile, getInitialSkills, getInitialExperiences } from "@/lib/initial-data";
+import { CERTIFICATES } from "@/lib/certificates";
 
 export default function Home() {
   const [projects, setProjects] = useState<any[]>(() => {
@@ -28,6 +29,7 @@ export default function Home() {
   const [profile, setProfile] = useState<any>(() => getInitialProfile() || {});
   const [skills, setSkills] = useState<any[]>(() => getInitialSkills());
   const [experiences, setExperiences] = useState<any[]>(() => getInitialExperiences());
+  const [activeCertIdx, setActiveCertIdx] = useState(0);
   const [copied, setCopied] = useState(false);
 
   const containerRef = useRef<HTMLElement>(null);
@@ -126,29 +128,60 @@ export default function Home() {
         </div>
 
         {/* Verified Credential Ribbon */}
-        <div className="max-w-[90rem] mx-auto mt-8 pt-6 border-t-2 border-zinc-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <span className="p-2 bg-blue-600 text-white rounded-full shrink-0">
-              <Sparkles size={16} />
-            </span>
-            <div>
-              <p className="text-sm font-black text-zinc-900 uppercase tracking-wider">
-                Microsoft Certified &bull; Product Design and UX/UI Fundamentals
-              </p>
-              <p className="text-xs text-zinc-500 font-medium">
-                Verified Industry Accreditation on Coursera &bull; Issued Sep 2026
-              </p>
-            </div>
+        <div className="max-w-[90rem] mx-auto mt-8 pt-6 border-t-2 border-zinc-200 flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 w-full lg:w-auto">
+            {/* Microsoft Badge */}
+            <a 
+              href="https://www.coursera.org/account/accomplishments/verify/J4W0KI4VK2S6"
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 group"
+            >
+              <span className="p-2 bg-blue-600 text-white rounded-full shrink-0 group-hover:scale-110 transition-transform">
+                <Sparkles size={16} />
+              </span>
+              <div>
+                <p className="text-sm font-black text-zinc-900 uppercase tracking-wider group-hover:text-blue-600 transition-colors inline-flex items-center gap-1.5">
+                  <span>Microsoft Certified &bull; Product Design</span>
+                  <span className="text-xs text-blue-600">↗</span>
+                </p>
+                <p className="text-xs text-zinc-500 font-medium">
+                  Coursera Verified &bull; ID: J4W0KI4VK2S6
+                </p>
+              </div>
+            </a>
+
+            <div className="hidden sm:block w-px h-8 bg-zinc-300" />
+
+            {/* IBM Badge */}
+            <a 
+              href="https://www.coursera.org/account/accomplishments/verify/3U1SENH82PI3"
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 group"
+            >
+              <span className="p-2 bg-indigo-700 text-white rounded-full shrink-0 group-hover:scale-110 transition-transform">
+                <Sparkles size={16} />
+              </span>
+              <div>
+                <p className="text-sm font-black text-zinc-900 uppercase tracking-wider group-hover:text-indigo-600 transition-colors inline-flex items-center gap-1.5">
+                  <span>IBM Certified &bull; UX Research &amp; IA</span>
+                  <span className="text-xs text-indigo-600">↗</span>
+                </p>
+                <p className="text-xs text-zinc-500 font-medium">
+                  Coursera Verified &bull; ID: 3U1SENH82PI3
+                </p>
+              </div>
+            </a>
           </div>
-          <a 
-            href="https://www.coursera.org/account/accomplishments/verify/J4W0KI4VK2S6" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-zinc-900 inline-flex items-center gap-1 group shrink-0"
+
+          <Link 
+            href="/about#certifications" 
+            className="text-xs font-black uppercase tracking-widest text-zinc-900 hover:text-blue-600 inline-flex items-center gap-1.5 group shrink-0 self-end lg:self-center"
           >
-            <span>View Verified Certificate</span>
-            <span className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
-          </a>
+            <span>View All Accreditations</span>
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </Link>
         </div>
       </section>
 
@@ -508,32 +541,42 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Right: Featured Microsoft Certificate Card */}
+            {/* Right: Featured Certificates Showcase */}
             <div className="lg:col-span-7 bg-[#f8f8f5] border-4 border-zinc-900 shadow-[12px_12px_0px_0px_rgba(24,24,27,1)] p-6 md:p-10 space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-3">
+              {/* Certificate Switcher Tabs */}
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-zinc-300 pb-4">
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 bg-blue-600 text-white text-xs font-black uppercase tracking-widest">
-                    Microsoft
-                  </span>
-                  <span className="px-3 py-1 bg-white text-zinc-900 text-xs font-bold uppercase tracking-wider border border-zinc-300">
-                    Coursera Verified
-                  </span>
+                  {CERTIFICATES.map((c, idx) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => setActiveCertIdx(idx)}
+                      className={`px-3.5 py-1.5 text-xs font-black uppercase tracking-wider transition-all border-2 border-zinc-900 shadow-[2px_2px_0px_0px_rgba(24,24,27,1)] cursor-pointer ${
+                        activeCertIdx === idx 
+                          ? `${c.issuerBadgeBg} text-white` 
+                          : "bg-white text-zinc-700 hover:bg-zinc-100"
+                      }`}
+                    >
+                      ❖ {c.issuer} Certified
+                    </button>
+                  ))}
                 </div>
                 <span className="text-xs font-mono font-bold text-zinc-500">
-                  Issued Sep 15, 2026
+                  Issued {CERTIFICATES[activeCertIdx].issueDate}
                 </span>
               </div>
 
+              {/* Certificate Preview Image */}
               <div className="w-full aspect-[16/10] relative bg-white border-2 border-zinc-900 overflow-hidden shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] group">
                 <Image 
-                  src="/uploads/microsoft-product-design-certificate.jpg" 
-                  alt="Microsoft Product Design and UX/UI Fundamentals Certificate"
+                  src={CERTIFICATES[activeCertIdx].image} 
+                  alt={`${CERTIFICATES[activeCertIdx].issuer} ${CERTIFICATES[activeCertIdx].title} Certificate`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 600px"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <a 
-                  href="https://www.coursera.org/account/accomplishments/verify/J4W0KI4VK2S6"
+                  href={CERTIFICATES[activeCertIdx].verifyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-black uppercase tracking-widest text-xs gap-2"
@@ -543,25 +586,45 @@ export default function Home() {
               </div>
 
               <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`px-2.5 py-0.5 ${CERTIFICATES[activeCertIdx].issuerBadgeBg} text-white text-[11px] font-black uppercase tracking-wider`}>
+                    {CERTIFICATES[activeCertIdx].issuer}
+                  </span>
+                  <span className="text-xs font-mono font-bold text-zinc-500">
+                    Coursera Verified
+                  </span>
+                </div>
                 <h3 className="text-2xl md:text-3xl font-black text-zinc-900 uppercase tracking-tight mb-2">
-                  Product Design and UX/UI Fundamentals
+                  {CERTIFICATES[activeCertIdx].title}
                 </h3>
                 <p className="text-sm md:text-base text-zinc-600 leading-relaxed font-normal">
-                  Accredited by Microsoft. Demonstrates certified mastery in user research, interactive wireframing, heuristic analysis, UI design systems, and usability testing.
+                  {CERTIFICATES[activeCertIdx].description}
                 </p>
+
+                {/* Skills tags */}
+                <div className="flex flex-wrap gap-2 pt-3">
+                  {CERTIFICATES[activeCertIdx].skills.map((s) => (
+                    <span 
+                      key={s}
+                      className="px-2.5 py-1 bg-white border border-zinc-300 text-zinc-700 text-xs font-mono font-semibold"
+                    >
+                      #{s}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               <div className="pt-2 flex flex-wrap gap-4 items-center justify-between border-t-2 border-zinc-200">
                 <a 
-                  href="https://www.coursera.org/account/accomplishments/verify/J4W0KI4VK2S6"
+                  href={CERTIFICATES[activeCertIdx].verifyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white font-black text-xs uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] border-2 border-zinc-900"
                 >
                   <span>Verify Credential on Coursera ↗</span>
                 </a>
-                <span className="text-xs font-mono text-zinc-400">
-                  ID: J4W0KI4VK2S6
+                <span className="text-xs font-mono text-zinc-500">
+                  ID: {CERTIFICATES[activeCertIdx].verificationId}
                 </span>
               </div>
             </div>
