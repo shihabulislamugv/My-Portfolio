@@ -24,7 +24,7 @@ import { CERTIFICATES } from "@/lib/certificates";
 
 export default function Home() {
   const [projects, setProjects] = useState<any[]>(() => {
-    return getInitialProjects().filter(p => p.published).slice(0, 4);
+    return getInitialProjects().filter(p => p.published).slice(0, 3);
   });
   const [profile, setProfile] = useState<any>(() => getInitialProfile() || {});
   const [skills, setSkills] = useState<any[]>(() => getInitialSkills());
@@ -43,7 +43,7 @@ export default function Home() {
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
-          setProjects(data.slice(0, 4));
+          setProjects(data.slice(0, 3));
         }
       })
       .catch(console.error);

@@ -31,22 +31,6 @@
   ],
   "projects": [
     {
-      "id": "cmtjyurl20001bu7brwqg38k0",
-      "title": "SmartPark — AI-Powered Parking Management",
-      "slug": "smartpark-ai-parking-management",
-      "description": "A smart parking platform that helps drivers find, reserve, and pay for parking spaces while enabling parking operators to manage their facilities efficiently.",
-      "thumbnail": "/uploads/1788345655949-286879537-images.jpg",
-      "role": "Product Designer",
-      "timeline": "8 Weeks",
-      "problem": "Finding available parking in busy areas is often frustrating and time-consuming. Drivers have limited visibility into parking availability, pricing, and location before reaching their destination.",
-      "solution": "SmartPark provides real-time parking availability, location-based search, advance reservations, digital payments, and navigation. A dedicated operator dashboard helps parking owners monitor spaces, bookings, revenue, and facility performance.",
-      "externalLink": "https://smartpark-demo.example.com",
-      "caseStudy": "# SmartPark — AI-Powered Parking Management\n\n## Overview\n\nSmartPark is a digital parking management platform designed to make finding and managing parking spaces easier for both drivers and parking operators.\n\n## Challenge\n\nDrivers often spend unnecessary time searching for available parking, while parking operators lack a centralized system to manage their spaces and bookings.\n\n### Key Challenges\n\n- Difficult to find available parking\n- No real-time availability information\n- Complicated booking process\n- Limited visibility into parking revenue\n- Manual management for parking operators\n\n## Design Goals\n\nThe main goals of the product were:\n\n1. Make parking discovery faster\n2. Simplify the reservation experience\n3. Provide transparent pricing\n4. Enable seamless digital payments\n5. Give operators better control over their facilities\n\n## UX Approach\n\nI started by mapping the complete user journey from discovering a parking location to completing payment.\n\n### User Flow\n\nSearch Parking → Select Location → View Availability → Choose Slot → Reserve → Payment → Navigation\n\n## Solution\n\nThe final product includes:\n\n- Real-time parking availability\n- Interactive map-based search\n- Parking slot reservation\n- Digital payment\n- Booking history\n- Navigation integration\n- Notifications and reminders\n- Parking operator dashboard\n- Revenue and booking analytics\n\n## Design System\n\nA scalable design system was created to maintain consistency across the platform.\n\nIt included:\n\n- Typography\n- Color tokens\n- Buttons\n- Form components\n- Cards\n- Navigation components\n- Status indicators\n- Data visualization components\n\n## Outcome\n\nThe redesigned experience creates a simpler parking journey for drivers while giving operators a centralized platform to manage their parking facilities.\n\n## Conclusion\n\nSmartPark demonstrates how thoughtful UX design can transform a traditionally frustrating offline experience into a simple and connected digital product.",
-      "published": true,
-      "createdAt": "2026-09-02T10:41:37.574Z",
-      "updatedAt": "2026-09-02T10:41:37.574Z"
-    },
-    {
       "id": "cmuck16vq0000ia85vqm112oh",
       "title": "LoveKonnection — Event-Driven Dating App",
       "slug": "lovekonnection-dating-app",

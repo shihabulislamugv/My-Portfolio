@@ -20,7 +20,9 @@ export async function GET(req: NextRequest) {
     const url = new URL(req.url);
     publishedOnly = url.searchParams.get("published") === "true";
 
-    const whereClause = publishedOnly ? { published: true } : {};
+    const whereClause = publishedOnly 
+      ? { published: true, slug: { not: "smartpark-ai-parking-management" } } 
+      : { slug: { not: "smartpark-ai-parking-management" } };
 
     let projects = await prisma.project.findMany({
       where: whereClause,

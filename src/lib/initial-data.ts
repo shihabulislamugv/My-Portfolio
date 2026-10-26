@@ -18,7 +18,13 @@ export interface ProjectData {
 }
 
 export function getInitialProjects(): ProjectData[] {
-  return (initialDataJson.projects || []) as ProjectData[];
+  const list = ((initialDataJson.projects || []) as ProjectData[])
+    .filter(p => p.slug !== "smartpark-ai-parking-management");
+  return list.sort((a, b) => {
+    const da = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const db = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+    return db - da;
+  });
 }
 
 export function getInitialProfile() {
