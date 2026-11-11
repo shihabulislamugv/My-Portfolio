@@ -10,7 +10,7 @@ import { getInitialProfile, getInitialExperiences, getInitialSkills, getInitialA
 import { useResumeModal } from "@/context/ResumeModalContext";
 
 export default function AboutPage() {
-  const { openResumeModal } = useResumeModal();
+  const { openResumeModal, prefetchResume } = useResumeModal();
   const [profile, setProfile] = useState<any>(() => getInitialProfile() || {});
   const [experiences, setExperiences] = useState<any[]>(() => getInitialExperiences());
   const [skills, setSkills] = useState<any[]>(() => getInitialSkills());
@@ -104,6 +104,8 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={openResumeModal}
+                onMouseEnter={prefetchResume}
+                onFocus={prefetchResume}
                 className="inline-flex items-center gap-3 px-6 py-3.5 bg-zinc-900 text-white font-black uppercase tracking-widest text-xs shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] border-2 border-zinc-900 hover:bg-blue-600 transition-colors cursor-pointer"
               >
                 <FileText size={16} strokeWidth={2.5} />

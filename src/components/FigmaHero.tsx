@@ -33,7 +33,7 @@ interface FigmaHeroProps {
 }
 
 export function FigmaHero({ profile }: FigmaHeroProps) {
-  const { openResumeModal } = useResumeModal();
+  const { openResumeModal, prefetchResume } = useResumeModal();
   const [activeTool, setActiveTool] = useState<"cursor" | "frame" | "pen" | "text" | "comment" | "ai">("cursor");
   const [showComment, setShowComment] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -289,8 +289,9 @@ export function FigmaHero({ profile }: FigmaHeroProps) {
                   <button
                     type="button"
                     onClick={openResumeModal}
-                    className="inline-flex items-center gap-2 px-5 py-4 text-xs font-mono font-bold uppercase tracking-wider text-zinc-600 hover:text-blue-600 underline underline-offset-4 cursor-pointer"
-                  >
+                    onMouseEnter={prefetchResume}
+                    onFocus={prefetchResume}
+                    className="inline-flex items-center gap-2 px-5 py-4 text-xs font-mono font-bold uppercase tracking-wider text-zinc-600 hover:text-blue-600 underline underline-offset-4 cursor-pointer">
                     <FileText size={14} />
                     <span>View CV</span>
                   </button>

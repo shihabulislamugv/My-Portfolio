@@ -1,18 +1,59 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { readFile } from 'fs/promises';
+import { readFile, stat } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+interface CachedResume {
+  buffer: Buffer;
+  mimeType: string;
+  etag: string;
+  timestamp: number;
+}
+
+let memoryCache: CachedResume | null = null;
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes in-memory cache
+
+export async function GET(req: NextRequest) {
   try {
-    const profile = await prisma.profile.findFirst();
-    const resumeUrl = profile?.resumeUrl;
+    const ifNoneMatch = req.headers.get('if-none-match');
+
+    // 1. Serve from in-memory cache if valid
+    if (memoryCache && Date.now() - memoryCache.timestamp < CACHE_TTL_MS) {
+      if (ifNoneMatch && ifNoneMatch === memoryCache.etag) {
+        return new NextResponse(null, {
+          status: 304,
+          headers: {
+            'ETag': memoryCache.etag,
+            'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+          },
+        });
+      }
+
+      return new NextResponse(memoryCache.buffer as unknown as BodyInit, {
+        headers: {
+          'Content-Type': memoryCache.mimeType,
+          'Content-Disposition': 'inline; filename="Md_Shihabul_Islam_Resume.pdf"',
+          'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+          'ETag': memoryCache.etag,
+        },
+      });
+    }
+
+    // 2. Lookup profile from DB or fallback
+    let resumeUrl: string | null = null;
+    try {
+      const profile = await prisma.profile.findFirst();
+      resumeUrl = profile?.resumeUrl || null;
+    } catch (e) {
+      console.warn('Prisma lookup failed, falling back to static resume:', e);
+    }
+
     const fallbackPath = join(process.cwd(), 'public', 'uploads', 'Md_Shihabul_Islam_Resume.pdf');
 
-    // 1. If it's a Base64 Data URL (e.g. data:application/pdf;base64,...)
+    // A. Base64 Data URL
     if (resumeUrl && resumeUrl.startsWith('data:')) {
       const parts = resumeUrl.split(',');
       const meta = parts[0];
@@ -20,44 +61,78 @@ export async function GET() {
       const mimeMatch = meta.match(/:(.*?);/);
       const mimeType = mimeMatch ? mimeMatch[1] : 'application/pdf';
       const fileBuffer = Buffer.from(base64Data, 'base64');
+      const etag = `"${fileBuffer.length}-${Date.now()}"`;
 
-      return new NextResponse(fileBuffer, {
+      memoryCache = { buffer: fileBuffer, mimeType, etag, timestamp: Date.now() };
+
+      return new NextResponse(fileBuffer as unknown as BodyInit, {
         headers: {
           'Content-Type': mimeType,
           'Content-Disposition': 'inline; filename="Md_Shihabul_Islam_Resume.pdf"',
-          'Cache-Control': 'public, max-age=3600',
+          'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+          'ETag': etag,
         },
       });
     }
 
-    // 2. If it's a relative path in public (e.g. /uploads/...)
+    // B. Relative path in public/
     if (resumeUrl && resumeUrl.startsWith('/') && !resumeUrl.startsWith('//')) {
       const filePath = join(process.cwd(), 'public', resumeUrl);
       if (existsSync(filePath)) {
-        const fileBuffer = await readFile(filePath);
-        return new NextResponse(fileBuffer, {
+        const [fileBuffer, fileStat] = await Promise.all([readFile(filePath), stat(filePath)]);
+        const etag = `"${fileStat.size}-${Math.floor(fileStat.mtimeMs)}"`;
+
+        memoryCache = { buffer: fileBuffer, mimeType: 'application/pdf', etag, timestamp: Date.now() };
+
+        if (ifNoneMatch && ifNoneMatch === etag) {
+          return new NextResponse(null, {
+            status: 304,
+            headers: {
+              'ETag': etag,
+              'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+            },
+          });
+        }
+
+        return new NextResponse(fileBuffer as unknown as BodyInit, {
           headers: {
             'Content-Type': 'application/pdf',
             'Content-Disposition': 'inline; filename="Md_Shihabul_Islam_Resume.pdf"',
-            'Cache-Control': 'public, max-age=3600',
+            'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+            'ETag': etag,
           },
         });
       }
     }
 
-    // 3. If external URL (http / https)
+    // C. External URL
     if (resumeUrl && (resumeUrl.startsWith('http://') || resumeUrl.startsWith('https://'))) {
       return NextResponse.redirect(resumeUrl, 302);
     }
 
-    // 4. Default Fallback file in public/uploads
+    // D. Default fallback file
     if (existsSync(fallbackPath)) {
-      const fileBuffer = await readFile(fallbackPath);
-      return new NextResponse(fileBuffer, {
+      const [fileBuffer, fileStat] = await Promise.all([readFile(fallbackPath), stat(fallbackPath)]);
+      const etag = `"${fileStat.size}-${Math.floor(fileStat.mtimeMs)}"`;
+
+      memoryCache = { buffer: fileBuffer, mimeType: 'application/pdf', etag, timestamp: Date.now() };
+
+      if (ifNoneMatch && ifNoneMatch === etag) {
+        return new NextResponse(null, {
+          status: 304,
+          headers: {
+            'ETag': etag,
+            'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+          },
+        });
+      }
+
+      return new NextResponse(fileBuffer as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'inline; filename="Md_Shihabul_Islam_Resume.pdf"',
-          'Cache-Control': 'public, max-age=3600',
+          'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+          'ETag': etag,
         },
       });
     }

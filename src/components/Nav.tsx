@@ -6,13 +6,14 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowDownToLine, Menu, X, FileText } from "lucide-react";
 import { useResumeModal } from "@/context/ResumeModalContext";
+import { getInitialProfile } from "@/lib/initial-data";
 
 export function Nav() {
   const pathname = usePathname();
-  const { openResumeModal } = useResumeModal();
-  const [profileName, setProfileName] = useState("SHIHAB.");
-  const [logoUrl, setLogoUrl] = useState<string | null>("/images/logo.png");
-  const [resumeUrl, setResumeUrl] = useState<string | null>(null);
+  const { openResumeModal, prefetchResume } = useResumeModal();
+  const [profileName, setProfileName] = useState(() => getInitialProfile()?.name || "SHIHAB.");
+  const [logoUrl, setLogoUrl] = useState<string | null>(() => getInitialProfile()?.logoUrl || "/images/logo.png");
+  const [resumeUrl, setResumeUrl] = useState<string | null>(() => getInitialProfile()?.resumeUrl || "/uploads/Md_Shihabul_Islam_Resume.pdf");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -187,17 +188,15 @@ export function Nav() {
 
           {resumeUrl && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <button 
                 type="button"
                 onClick={openResumeModal}
-                className="px-4 lg:px-5 py-2 lg:py-2.5 bg-zinc-900 text-white text-xs font-black uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] inline-flex items-center gap-2 border-2 border-zinc-900 cursor-pointer"
-              >
+                onMouseEnter={prefetchResume}
+                onFocus={prefetchResume}
+                className="px-4 lg:px-5 py-2 lg:py-2.5 bg-zinc-900 text-white text-xs font-black uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] inline-flex items-center gap-2 border-2 border-zinc-900 cursor-pointer">
                 <FileText size={15} strokeWidth={2.5} />
                 Resume
               </button>
@@ -211,8 +210,9 @@ export function Nav() {
             <button 
               type="button"
               onClick={openResumeModal}
-              className="px-3 py-1.5 bg-blue-600 text-white text-xs font-black uppercase tracking-wider border-2 border-zinc-900 cursor-pointer"
-            >
+              onTouchStart={prefetchResume}
+              onMouseEnter={prefetchResume}
+              className="px-3 py-1.5 bg-blue-600 text-white text-xs font-black uppercase tracking-wider border-2 border-zinc-900 cursor-pointer">
               Resume
             </button>
           )}
