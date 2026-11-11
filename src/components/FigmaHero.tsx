@@ -17,8 +17,10 @@ import {
   Move,
   Maximize2,
   Type,
-  Frame
+  Frame,
+  FileText
 } from "lucide-react";
+import { useResumeModal } from "@/context/ResumeModalContext";
 
 interface FigmaHeroProps {
   profile: {
@@ -31,6 +33,7 @@ interface FigmaHeroProps {
 }
 
 export function FigmaHero({ profile }: FigmaHeroProps) {
+  const { openResumeModal } = useResumeModal();
   const [activeTool, setActiveTool] = useState<"cursor" | "frame" | "pen" | "text" | "comment" | "ai">("cursor");
   const [showComment, setShowComment] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -283,14 +286,14 @@ export function FigmaHero({ profile }: FigmaHeroProps) {
                 </button>
 
                 {profile.resumeUrl && (
-                  <a
-                    href="/api/resume/download"
-                    download="Md_Shihabul_Islam_Resume.pdf"
-                    className="inline-flex items-center gap-2 px-5 py-4 text-xs font-mono font-bold uppercase tracking-wider text-zinc-600 hover:text-blue-600 underline underline-offset-4"
+                  <button
+                    type="button"
+                    onClick={openResumeModal}
+                    className="inline-flex items-center gap-2 px-5 py-4 text-xs font-mono font-bold uppercase tracking-wider text-zinc-600 hover:text-blue-600 underline underline-offset-4 cursor-pointer"
                   >
-                    <Download size={14} />
-                    <span>Download CV</span>
-                  </a>
+                    <FileText size={14} />
+                    <span>View CV</span>
+                  </button>
                 )}
               </div>
 

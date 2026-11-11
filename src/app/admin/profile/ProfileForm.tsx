@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FileText, Upload, AlertCircle, ArrowDownToLine, Trash2, CheckCircle2, X, Image as ImageIcon } from "lucide-react";
+import { FileText, Upload, AlertCircle, ArrowDownToLine, Trash2, CheckCircle2, X, Image as ImageIcon, ExternalLink } from "lucide-react";
 
 export default function ProfileForm({ initialData }: { initialData: any }) {
   const router = useRouter();
@@ -334,6 +334,15 @@ export default function ProfileForm({ initialData }: { initialData: any }) {
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
+              <a
+                href={formData.resumeUrl.startsWith('data:') ? formData.resumeUrl : "/api/resume/view"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white text-zinc-900 text-xs font-black uppercase tracking-wider hover:bg-zinc-100 transition shadow-[2px_2px_0px_0px_rgba(24,24,27,1)] border border-zinc-900"
+              >
+                <ExternalLink size={14} />
+                <span>Preview</span>
+              </a>
               <a
                 href={formData.resumeUrl.startsWith('data:') ? formData.resumeUrl : "/api/resume/download"}
                 download="Md_Shihabul_Islam_Resume.pdf"

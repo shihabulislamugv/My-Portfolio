@@ -4,10 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowDownToLine, Menu, X } from "lucide-react";
+import { ArrowDownToLine, Menu, X, FileText } from "lucide-react";
+import { useResumeModal } from "@/context/ResumeModalContext";
 
 export function Nav() {
   const pathname = usePathname();
+  const { openResumeModal } = useResumeModal();
   const [profileName, setProfileName] = useState("SHIHAB.");
   const [logoUrl, setLogoUrl] = useState<string | null>("/images/logo.png");
   const [resumeUrl, setResumeUrl] = useState<string | null>(null);
@@ -191,14 +193,14 @@ export function Nav() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <a 
-                href="/api/resume/download"
-                download="Md_Shihabul_Islam_Resume.pdf"
-                className="px-4 lg:px-5 py-2 lg:py-2.5 bg-zinc-900 text-white text-xs font-black uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] inline-flex items-center gap-2 border-2 border-zinc-900"
+              <button 
+                type="button"
+                onClick={openResumeModal}
+                className="px-4 lg:px-5 py-2 lg:py-2.5 bg-zinc-900 text-white text-xs font-black uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] inline-flex items-center gap-2 border-2 border-zinc-900 cursor-pointer"
               >
-                <ArrowDownToLine size={15} strokeWidth={3} />
+                <FileText size={15} strokeWidth={2.5} />
                 Resume
-              </a>
+              </button>
             </motion.div>
           )}
         </nav>
@@ -206,13 +208,13 @@ export function Nav() {
         {/* Mobile Hamburger Toggle */}
         <div className="flex items-center gap-3 md:hidden">
           {resumeUrl && (
-            <a 
-              href="/api/resume/download"
-              download="Md_Shihabul_Islam_Resume.pdf"
-              className="px-3 py-1.5 bg-blue-600 text-white text-xs font-black uppercase tracking-wider border-2 border-zinc-900"
+            <button 
+              type="button"
+              onClick={openResumeModal}
+              className="px-3 py-1.5 bg-blue-600 text-white text-xs font-black uppercase tracking-wider border-2 border-zinc-900 cursor-pointer"
             >
               Resume
-            </a>
+            </button>
           )}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -247,6 +249,23 @@ export function Nav() {
                   <span>→</span>
                 </Link>
               ))}
+
+              {resumeUrl && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openResumeModal();
+                  }}
+                  className="text-xl font-black uppercase tracking-tight py-3 text-blue-600 flex items-center justify-between border-t-2 border-zinc-900 mt-2 cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <FileText size={20} />
+                    <span>View Curriculum Vitae</span>
+                  </span>
+                  <span>↗</span>
+                </button>
+              )}
             </div>
           </motion.div>
         )}

@@ -4,11 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowDownToLine, Briefcase, Award, CheckCircle2, Mail, GraduationCap, Lock } from "lucide-react";
+import { ArrowLeft, ArrowDownToLine, Briefcase, Award, CheckCircle2, Mail, GraduationCap, Lock, FileText } from "lucide-react";
 import { CERTIFICATES } from "@/lib/certificates";
 import { getInitialProfile, getInitialExperiences, getInitialSkills, getInitialAcademics } from "@/lib/initial-data";
+import { useResumeModal } from "@/context/ResumeModalContext";
 
 export default function AboutPage() {
+  const { openResumeModal } = useResumeModal();
   const [profile, setProfile] = useState<any>(() => getInitialProfile() || {});
   const [experiences, setExperiences] = useState<any[]>(() => getInitialExperiences());
   const [skills, setSkills] = useState<any[]>(() => getInitialSkills());
@@ -97,16 +99,16 @@ export default function AboutPage() {
             </a>
 
             {profile.resumeUrl && (
-              <motion.a
+              <motion.button
+                type="button"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                href="/api/resume/download"
-                download="Md_Shihabul_Islam_Resume.pdf"
-                className="inline-flex items-center gap-3 px-6 py-3.5 bg-zinc-900 text-white font-black uppercase tracking-widest text-xs shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] border-2 border-zinc-900 hover:bg-blue-600 transition-colors"
+                onClick={openResumeModal}
+                className="inline-flex items-center gap-3 px-6 py-3.5 bg-zinc-900 text-white font-black uppercase tracking-widest text-xs shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] border-2 border-zinc-900 hover:bg-blue-600 transition-colors cursor-pointer"
               >
-                <ArrowDownToLine size={16} strokeWidth={3} />
-                Download Curriculum Vitae
-              </motion.a>
+                <FileText size={16} strokeWidth={2.5} />
+                <span>View Curriculum Vitae</span>
+              </motion.button>
             )}
           </div>
         </motion.div>
